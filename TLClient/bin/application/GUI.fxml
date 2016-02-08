@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane prefHeight="564.0" prefWidth="346.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.GUIController">
+   <top>
+      <FlowPane prefHeight="104.0" prefWidth="356.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label text="Server:">
+               <FlowPane.margin>
+                  <Insets left="5.0" top="10.0" />
+               </FlowPane.margin>
+            </Label>
+            <TextField fx:id="textfield_server" text="127.0.0.1">
+               <FlowPane.margin>
+                  <Insets left="10.0" right="30.0" top="10.0" />
+               </FlowPane.margin>
+            </TextField>
+            <Button fx:id="button_connect" mnemonicParsing="false" onAction="#connect" text="Connect" />
+            <Label text="Port:">
+               <FlowPane.margin>
+                  <Insets left="10.0" right="20.0" top="20.0" />
+               </FlowPane.margin>
+            </Label>
+            <TextField fx:id="textfield_port" text="5555">
+               <FlowPane.margin>
+                  <Insets top="20.0" />
+               </FlowPane.margin>
+            </TextField>
+            <Button fx:id="button_disconnect" disable="true" mnemonicParsing="false" onAction="#disconnect" text="Disconnect">
+               <FlowPane.margin>
+                  <Insets left="20.0" top="20.0" />
+               </FlowPane.margin>
+            </Button>
+         </children>
+      </FlowPane>
+   </top>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fx:id="image_currentLight" fitHeight="365.0" fitWidth="356.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
