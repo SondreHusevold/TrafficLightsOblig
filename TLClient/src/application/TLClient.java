@@ -25,6 +25,9 @@ public class TLClient extends Application {
 		}
 	}
 	
+	/*!
+	 * Sets up the GUI using JavaFX.
+	 */
 	 public void initRootLayout() {
         try {
             // Load root layout from fxml file.

@@ -20,6 +20,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
+/*!
+ * JavaFX controller. Controls all the buttons, labels, sliders, textareas and such.
+ */
+
 public class GUIController {
 	@FXML
     private ListView<String> list_clientList;
@@ -46,10 +50,15 @@ public class GUIController {
 	@FXML
 	public TextArea log;
 
-	private Kickstarter appStarter;
-	Thread mainThread;
+	private Kickstarter appStarter;			// Main class to separate the GUI controller and the actual server application.
+	Thread mainThread;						// Thread where the kickstarter runs.
 	
-	// Event Listener on Button[#button_begin].onAction
+	/*!
+	 * Event triggered by button_start.
+	 * 
+	 * This will create a new thread which will make appStarter a new Kickstarter object and send arguments.
+	 * It will then start the thread, and disable the start button, while enabling the stop button.
+	 */
 	@FXML
 	public void launch(ActionEvent event) {
 		mainThread = new Thread(appStarter = new Kickstarter(list_clientList, Integer.parseInt(textfield_port.getText()), log));
@@ -59,6 +68,9 @@ public class GUIController {
 		log("Server started at port " + Integer.parseInt(textfield_port.getText()));
 	}
 	
+	/*!
+	 * Kills the appStarter and its thread. Reenables the start button.
+	 */
 	public void stop(ActionEvent event){
 		appStarter.kill();
 		appStarter = null;
@@ -68,7 +80,9 @@ public class GUIController {
 		log("Server stopped.");
 	}
 	
-	// Event Listener on Slider[#yellowSlider].onDragDetected
+	/*!
+	 * Changes the label where the yellow slider is to show its value.
+	 */
 	@FXML
 	public void changeYellowSliderValue(MouseEvent event) {
 		int value = (int) yellowSlider.getValue();
@@ -76,7 +90,9 @@ public class GUIController {
 		button_ApplyChanges.setDisable(false);
 	}
 	
-	// Event Listener on Slider[#greenSlider].onDragDetected
+	/*!
+	 * Changes the label where the green slider is to show its value.
+	 */
 	@FXML
 	public void changeGreenSliderValue(MouseEvent event) {
 		int value = (int) greenSlider.getValue();
@@ -84,7 +100,9 @@ public class GUIController {
 		button_ApplyChanges.setDisable(false);
 	}
 	
-	// Event Listener on Slider[#redSlider].onDragDetected
+	/*!
+	 * Changes the label where the red slider is to show its value.
+	 */
 	@FXML
 	public void changeRedSliderValue(MouseEvent event) {
 		int value = (int) redSlider.getValue();
@@ -92,12 +110,17 @@ public class GUIController {
 		button_ApplyChanges.setDisable(false);
 	}
 	
-	// Event Listener on Button[#button_ApplyChanges].onAction
+	/*!
+	 * Event triggered by button_ApplyChanges
+	 */
 	@FXML
 	public void applyColors(ActionEvent event) {
 		button_ApplyChanges.setDisable(true);
 	}
 	
+	/*!
+	 * Logs things into the log text area with a newline.
+	 */
 	public void log(String t){
 		log.appendText(t + "\n");
 	}

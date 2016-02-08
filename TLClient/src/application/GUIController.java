@@ -10,6 +10,10 @@ import javafx.event.ActionEvent;
 
 import javafx.scene.image.ImageView;
 
+/*!
+ * JavaFX controller to control the Scene Builder created user interface. 
+ */
+
 public class GUIController {
 	@FXML
 	private TextField textfield_server;
@@ -28,16 +32,26 @@ public class GUIController {
 	
 	private Kickstarter appStarter;
 
-	// Event Listener on Button[#button_connect].onAction
+	/*!
+	 * Button event when the button_connect is pressed.
+	 * 
+	 * Connects the client by creating the bridge between the Traffic Light and the GUI and sending user interface
+	 * related information from the host field, the port field and type fields. While also sending the imageview further down the classes.
+	 */
 	@FXML
 	public void connect(ActionEvent event) {
-		appStarter = new Kickstarter(textfield_server.getText(), Integer.parseInt(textfield_port.getText()), image_currentLight, radio_walk.isSelected());
+		appStarter = new Kickstarter(textfield_server.getText(), Integer.parseInt(textfield_port.getText()), radio_walk.isSelected(), image_currentLight);
 		appStarter.connect();
 		button_connect.setDisable(true);
 		button_disconnect.setDisable(false);
 	}
 	
-	// Event Listener on Button[#button_disconnect].onAction
+	/*!
+	 * Button event when the button_disconnect is pressed.
+	 * 
+	 * Disconnects the client by stopping the threads and nulling the bridge killing off the client's connection completely.
+	 * Also reenables the connect button.
+	 */
 	@FXML
 	public void disconnect(ActionEvent event) {
 		appStarter.disconnect();
@@ -47,12 +61,18 @@ public class GUIController {
 	}
 	
 
+	/*!
+	 * Method to switch from Walk radio button to the Standard radio button.
+	 */
     @FXML
     void switchRadioStandard(ActionEvent event) {
     	radio_walk.setSelected(false);
     	radio_standard.setSelected(true);
     }
     
+	/*!
+	 * Method to switch from Standard radio button to the Walk radio button.
+	 */
     @FXML
     void switchRadioWalk(ActionEvent event) {
     	radio_walk.setSelected(true);

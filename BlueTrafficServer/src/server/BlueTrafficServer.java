@@ -10,6 +10,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
+/*!
+ * Main class. Initializes the user interface and its controller. Doesn't do much else.
+ */
+
 public class BlueTrafficServer extends Application {
 	
 	 private Stage primaryStage;
