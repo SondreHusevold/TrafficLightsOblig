@@ -48,6 +48,7 @@ public class Server extends Thread {
     }
     
     public void log(String t){
+    	
     	log.appendText(t + "\n");
     }
 }

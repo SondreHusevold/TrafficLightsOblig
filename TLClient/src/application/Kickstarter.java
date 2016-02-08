@@ -9,8 +9,11 @@ public class Kickstarter {
 	int port;
 	String host;
 	
-	public Kickstarter(String hostname, int _port, ImageView view){
-		light = new TrafficLight(view);
+	public Kickstarter(String hostname, int _port, ImageView view, boolean walk){
+		if(walk)
+			light = new TrafficLight(5, 10, view);
+		else
+			light = new TrafficLight(view);
 		host=hostname;
 		port = _port;
 	}

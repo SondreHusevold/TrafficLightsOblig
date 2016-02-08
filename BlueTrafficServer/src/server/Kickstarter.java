@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Vector;
 
+import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -52,7 +53,12 @@ public class Kickstarter implements Runnable {
 		       // create and start a new ClientServer thread for each connected client
 			   Server server = new Server(serverSocket.accept(), log);
 			   server.start();
-		       clientList.add(server);
+			   
+			   // Required to avoid a thread exception with JavaFX when several clients connect.
+			   Platform.runLater(() -> {
+				   // Adds client to the client list on the right.
+				   clientList.add(server);
+			   });
 		       log("New client connected: " + server.clntAddr.getHostAddress());
 		       
 		   }
@@ -64,12 +70,19 @@ public class Kickstarter implements Runnable {
 		}
 	}
 	
+	/*!
+	 *  Logs by appending to the log textarea in the application.
+	 */
 	public void log(String t){
 		log.appendText(t + "\n");
 	}
 	
+	/*!
+	 * Kills all threads by killing the "isRunning" part of run().
+	 */
    public void kill() {
        isRunning = false;
+       clientList = null;
    }
 	
 }

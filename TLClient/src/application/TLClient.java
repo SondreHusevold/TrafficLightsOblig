@@ -1,17 +1,15 @@
-package server;
+package application;
 	
-import java.io.*;
-import java.net.*;
+import java.io.IOException;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
 
-public class Main extends Application {
-	
+
+public class TLClient extends Application {
 	 private Stage primaryStage;
 	 private BorderPane rootLayout;
     
@@ -19,7 +17,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			 this.primaryStage = primaryStage;
-			 this.primaryStage.setTitle("Traffic Light Server");
+			 this.primaryStage.setTitle("Traffic Light Client");
 			
 			 initRootLayout();
 		} catch(Exception e) {
@@ -31,7 +29,7 @@ public class Main extends Application {
         try {
             // Load root layout from fxml file.
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(Main.class.getResource("GUI.fxml"));
+            loader.setLocation(TLClient.class.getResource("GUI.fxml"));
             rootLayout = (BorderPane) loader.load();
             
             // Show the scene containing the root layout.
@@ -42,11 +40,6 @@ public class Main extends Application {
             e.printStackTrace();
         }
     }
-
-	public Stage getPrimaryStage() {
-		return primaryStage;
-	}
-	
 	
 	public static void main(String[] args) {
 		launch(args);

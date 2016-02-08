@@ -3,7 +3,7 @@ package application;
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
-
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 
 import javafx.event.ActionEvent;
@@ -21,13 +21,17 @@ public class GUIController {
 	private Button button_disconnect;
 	@FXML
 	public ImageView image_currentLight;
+    @FXML
+    private RadioButton radio_standard;
+    @FXML
+    private RadioButton radio_walk;
 	
 	private Kickstarter appStarter;
 
 	// Event Listener on Button[#button_connect].onAction
 	@FXML
 	public void connect(ActionEvent event) {
-		appStarter = new Kickstarter(textfield_server.getText(), Integer.parseInt(textfield_port.getText()), image_currentLight);
+		appStarter = new Kickstarter(textfield_server.getText(), Integer.parseInt(textfield_port.getText()), image_currentLight, radio_walk.isSelected());
 		appStarter.connect();
 		button_connect.setDisable(true);
 		button_disconnect.setDisable(false);
@@ -41,4 +45,17 @@ public class GUIController {
 		button_connect.setDisable(false);
 		button_disconnect.setDisable(true);
 	}
+	
+
+    @FXML
+    void switchRadioStandard(ActionEvent event) {
+    	radio_walk.setSelected(false);
+    	radio_standard.setSelected(true);
+    }
+    
+    @FXML
+    void switchRadioWalk(ActionEvent event) {
+    	radio_walk.setSelected(true);
+    	radio_standard.setSelected(false);
+    }
 }

@@ -36,9 +36,9 @@ public class TrafficLight {
 	public TrafficLight(ImageView _view){
 		view = _view;
 		lightSwitches = new Light[3];
-		lightSwitches[red] = new Light("Red", 5, "/backend/Red.png");
-		lightSwitches[yellow] = new Light("Yellow", 2, "/backend/Yellow.png");
-		lightSwitches[green] = new Light("Green", 10, "/backend/Green.png");
+		lightSwitches[red] = new Light("Red", 5, "/images/Red.png");
+		lightSwitches[yellow] = new Light("Yellow", 2, "/images/Yellow.png");
+		lightSwitches[green] = new Light("Green", 10, "/images/Green.png");
 	}
 	
 	/*!
@@ -48,9 +48,9 @@ public class TrafficLight {
 	public TrafficLight(int redF, int yellowF, int greenF, ImageView _view){
 		view = _view;
 		lightSwitches = new Light[3];
-		lightSwitches[red] = new Light("Red", redF, "images/Red.png");
-		lightSwitches[yellow] = new Light("Yellow", yellowF, "images/Yellow.png");
-		lightSwitches[green] = new Light("Green", greenF, "images/Green.png");
+		lightSwitches[red] = new Light("Red", redF, "/images/Red.png");
+		lightSwitches[yellow] = new Light("Yellow", yellowF, "/images/Yellow.png");
+		lightSwitches[green] = new Light("Green", greenF, "/images/Green.png");
 	}
 	
 	/*!
@@ -59,8 +59,9 @@ public class TrafficLight {
 	public TrafficLight(int redF, int greenF, ImageView _view){
 		view = _view;
 		lightSwitches = new Light[3];
-		lightSwitches[red] = new Light("Red", 5, "images/Walk Red.png");
-		lightSwitches[green] = new Light("Green", 10, "images/Walk Green.png");
+		lightSwitches[red] = new Light("Red", redF, "/images/Walk Red.png");
+		lightSwitches[yellow] = new Light("Yellow", 0, "/images/Walk Red.png");
+		lightSwitches[green] = new Light("Green", greenF, "/images/Walk Green.png");
 	}
 	
 	/*!
@@ -163,7 +164,7 @@ public class TrafficLight {
 		lightSwitches[red].enabled(true);
 
 		scheduleNext();
-		
+		changeImage();
 		Thread t = new Thread(new Runnable() {
 	         public void run()
 	         {

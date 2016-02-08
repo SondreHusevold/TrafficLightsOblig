@@ -37,6 +37,16 @@
                   <Insets left="20.0" top="20.0" />
                </FlowPane.margin>
             </Button>
+            <RadioButton fx:id="radio_standard" mnemonicParsing="false" onAction="#switchRadioStandard" selected="true" text="Standard">
+               <padding>
+                  <Insets left="80.0" top="10.0" />
+               </padding>
+            </RadioButton>
+            <RadioButton fx:id="radio_walk" mnemonicParsing="false" onAction="#switchRadioWalk" text="Walk">
+               <padding>
+                  <Insets left="20.0" top="10.0" />
+               </padding>
+            </RadioButton>
          </children>
       </FlowPane>
    </top>
