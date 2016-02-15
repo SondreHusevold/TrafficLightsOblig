@@ -18,11 +18,11 @@ public class GUIController {
 	@FXML
 	private TextField textfield_server;
 	@FXML
-	private Button button_connect;
+	public Button button_connect;
 	@FXML
 	private TextField textfield_port;
 	@FXML
-	private Button button_disconnect;
+	public Button button_disconnect;
 	@FXML
 	public ImageView image_currentLight;
     @FXML
@@ -44,6 +44,7 @@ public class GUIController {
 		appStarter.connect();
 		button_connect.setDisable(true);
 		button_disconnect.setDisable(false);
+		System.out.println(button_connect.toString());
 	}
 	
 	/*!
@@ -54,13 +55,22 @@ public class GUIController {
 	 */
 	@FXML
 	public void disconnect(ActionEvent event) {
-		appStarter.disconnect();
+		disconnect();
+	}
+	
+	public void disconnect() {
+		if(appStarter != null){
+			appStarter.disconnect();
+		}
 		appStarter = null;
 		button_connect.setDisable(false);
 		button_disconnect.setDisable(true);
 	}
 	
-
+	public Button getConnect(){
+		return button_connect;
+	}
+	
 	/*!
 	 * Method to switch from Walk radio button to the Standard radio button.
 	 */

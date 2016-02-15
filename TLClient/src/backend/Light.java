@@ -57,6 +57,7 @@ public class Light {
 	}
 	
 	public void frequency(int newFreq){
+		System.out.println("CHANGED FREQUENCY OF " + getName() + " to " + newFreq);
 		frequency = newFreq;
 	}
 	

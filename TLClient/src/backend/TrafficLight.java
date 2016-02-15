@@ -9,6 +9,11 @@ import java.util.concurrent.*;
 
 import javax.swing.JOptionPane;
 
+import application.GUIController;
+import application.TLClient;
+import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
 
 public class TrafficLight {
@@ -19,6 +24,9 @@ public class TrafficLight {
 	private String hostName;
 	private Socket clientSocket;
 	public ImageView view;
+	public boolean quit;
+	private PrintWriter out;
+	private BufferedReader in;
 	
 	Light[] lightSwitches;						// Array which contains the three lights which is easily callable by using the finals above.
 	boolean direction;							// Forward or backwards - Red - Yellow - Green, Green - Yellow - Red.
@@ -138,8 +146,10 @@ public class TrafficLight {
 	 */
 	
 	public void scheduleNext(){
-		futureOfSchedulers =
+		if(!scheduler.isShutdown()){
+			futureOfSchedulers =
 			    scheduler.schedule(switchColour(), getLightFrequency(getActiveColour()), TimeUnit.SECONDS);
+		}
 	}
 	
 	
@@ -170,8 +180,16 @@ public class TrafficLight {
 	 * Shuts down the scheduler and the scheduler queue.
 	 */
 	public void disconnect(){
-		futureOfSchedulers.cancel(true);
-		scheduler.shutdown();
+		try {
+			futureOfSchedulers.cancel(true);
+			scheduler.shutdown();
+			scheduler.awaitTermination(10, TimeUnit.MINUTES);
+			quit = true;
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			System.out.println("SCHEDULER INTERRUPTED!");
+			e.printStackTrace();
+		}
 	}
 	
 	/*!
@@ -180,6 +198,7 @@ public class TrafficLight {
 	public void run(){
 		
 		// Initialize scheduler, setup direction and ports.
+		quit = false;
 		scheduler = Executors.newScheduledThreadPool(3);
 		direction = true;									// Sets the direction downwards 
 		lightSwitches[red].enabled(true);					// Enables the red light automatically
@@ -199,12 +218,47 @@ public class TrafficLight {
         		                new BufferedReader(
         		                        new InputStreamReader(clientSocket.getInputStream()));
         		     ) {
-        				while(!futureOfSchedulers.isCancelled()){   // As long as the scheduler queue isn't cancelled
-        					if(futureOfSchedulers.isDone()){		// If the scheduler has completed its task of changing the colour
-        						changeImage();						// Change the image
-        						scheduleNext();						// Schedule the next colour change.
+	                 	String receivedText;
+        				while(!futureOfSchedulers.isCancelled() && !quit){   						// As long as the scheduler queue isn't cancelled
+        					
+        					if(in.ready()){															// Check for incoming message.
+        						receivedText = in.readLine();										// Read IV
+        						String encryptedText = in.readLine();								// Read encrypted text
+        						String decrypted = Crypto.decrypt(encryptedText, receivedText);		// Decrypt.
+        						
+        						if(decrypted.startsWith("kill")){
+        							quit = true;
+        						}
+        						else if(decrypted.startsWith("C")){
+        							
+    								// Typical command will look like this: C015
+        							// C (command that tells client that this is a color frequency command) 
+        							// 0 (final int red as declared at the top.)
+        							// 15 (frequency in seconds)
+        							
+        							int colour = Character.getNumericValue(decrypted.charAt(1));	
+        							lightSwitches[colour].frequency(Integer.parseInt(decrypted.substring(2)));
+        						}
+        					}
+        					
+        					if(!(scheduler.isShutdown()) && futureOfSchedulers.isDone()){		// If the scheduler has completed its task of changing the colour
+        						changeImage();													// Change the image
+        						scheduleNext();													// Schedule the next colour change.
         					}
         				}
+        				
+        				// Send kill command.
+        				String IV = Crypto.getRandomIV();
+        				out.println(IV + "\n" + Crypto.encrypt("kill", IV));
+        				
+        				FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/application/GUI.fxml"));
+						Parent root = (Parent) loader.load();
+        				GUIController controller = loader.getController();
+        				Platform.runLater(() -> {
+        					// CAN'T GET THIS SHIT WORKING!!!!! 
+            				controller.disconnect();
+            				controller.getConnect().setDisable(false);
+        				});
         		    } 
         		    catch (UnknownHostException e) {
         		        System.err.println("ERROR: COULD NOT FIND HOST: " + hostName);
@@ -215,7 +269,7 @@ public class TrafficLight {
         		                hostName);
         		        System.exit(1);
         		    }
-	        	 System.out.println("Done running.");
+	        	 
 	         }
 		});
 		// This will start the thread above. Required, otherwise the thread will never start running the Runnable code.

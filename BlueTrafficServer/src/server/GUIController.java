@@ -49,6 +49,8 @@ public class GUIController {
 	private Button button_ApplyChanges;
 	@FXML
 	public TextArea log;
+	
+	final int red = 0, yellow = 1, green = 2;
 
 	private Kickstarter appStarter;			// Main class to separate the GUI controller and the actual server application.
 	Thread mainThread;						// Thread where the kickstarter runs.
@@ -61,11 +63,11 @@ public class GUIController {
 	 */
 	@FXML
 	public void launch(ActionEvent event) {
+		log.appendText("Server started at port " + Integer.parseInt(textfield_port.getText()) + "\n");
 		mainThread = new Thread(appStarter = new Kickstarter(list_clientList, Integer.parseInt(textfield_port.getText()), log));
 		mainThread.start();
 		button_stop.setDisable(false);
 		button_start.setDisable(true);
-		log("Server started at port " + Integer.parseInt(textfield_port.getText()));
 	}
 	
 	/*!
@@ -77,7 +79,7 @@ public class GUIController {
 		mainThread = null;
 		button_start.setDisable(false);
 		button_stop.setDisable(true);
-		log("Server stopped.");
+		log.appendText("Server stopped.");
 	}
 	
 	/*!
@@ -115,13 +117,15 @@ public class GUIController {
 	 */
 	@FXML
 	public void applyColors(ActionEvent event) {
+		if(appStarter != null){
+			int r = (int) redSlider.getValue();
+			int y = (int) yellowSlider.getValue();
+			int g = (int) greenSlider.getValue();
+			log.appendText("Server: > Setting new frequencies on all clients.\nServer: > Red: " + r + "\nServer: > Yellow: " + y + "\nServer: > Green:" + g + "\n");
+			appStarter.setFrequency(red, r);
+			appStarter.setFrequency(yellow, y);
+			appStarter.setFrequency(green, g);
+		}
 		button_ApplyChanges.setDisable(true);
-	}
-	
-	/*!
-	 * Logs things into the log text area with a newline.
-	 */
-	public void log(String t){
-		log.appendText(t + "\n");
 	}
 }

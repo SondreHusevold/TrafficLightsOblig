@@ -18,7 +18,7 @@ public class TLClient extends Application {
 		try {
 			 this.primaryStage = primaryStage;
 			 this.primaryStage.setTitle("Traffic Light Client");
-			
+
 			 initRootLayout();
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -39,6 +39,11 @@ public class TLClient extends Application {
             Scene scene = new Scene(rootLayout);
             primaryStage.setScene(scene);
             primaryStage.show();
+            primaryStage.setOnCloseRequest(event -> {
+            	GUIController controller = loader.getController();
+            	controller.disconnect();
+            });
+     
         } catch (IOException e) {
             e.printStackTrace();
         }
