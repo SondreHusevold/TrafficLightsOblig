@@ -8,46 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="594.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="server.GUIController">
-   <center>
-      <GridPane BorderPane.alignment="CENTER">
-        <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Slider fx:id="yellowSlider" max="125.0" onMouseDragged="#changeYellowSliderValue" showTickLabels="true" value="2.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-            <Slider fx:id="greenSlider" max="125.0" onMouseDragged="#changeGreenSliderValue" showTickLabels="true" value="15.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Slider fx:id="redSlider" max="125.0" onMouseDragged="#changeRedSliderValue" showTickLabels="true" value="10.0" GridPane.columnIndex="1" />
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Red:" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label alignment="CENTER" contentDisplay="CENTER" text="Yellow:" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
-            <Label text="Green:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-            <Label fx:id="label_redSliderValue" text="(10)" GridPane.columnIndex="2">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin></Label>
-            <Label fx:id="label_yellowSliderValue" text="(2)" GridPane.columnIndex="2" GridPane.rowIndex="1">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin></Label>
-            <Label fx:id="label_greenSliderValue" text="(15)" GridPane.columnIndex="2" GridPane.rowIndex="2">
-               <GridPane.margin>
-                  <Insets left="20.0" />
-               </GridPane.margin></Label>
-            <Button fx:id="button_ApplyChanges" disable="true" mnemonicParsing="false" onAction="#applyColors" text="Apply Changes" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-         </children>
-      </GridPane>
-   </center>
    <bottom>
-      <BorderPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+      <BorderPane prefHeight="167.0" prefWidth="920.0" BorderPane.alignment="CENTER">
          <center>
-            <TextArea fx:id="log" editable="false" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TextArea fx:id="log" editable="false" prefHeight="109.0" prefWidth="900.0" BorderPane.alignment="CENTER">
                <BorderPane.margin>
                   <Insets top="10.0" />
                </BorderPane.margin></TextArea>
@@ -60,30 +24,6 @@
          </padding>
       </BorderPane>
    </bottom>
-   <right>
-      <FlowPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <Label contentDisplay="CENTER" text="Clients:">
-               <FlowPane.margin>
-                  <Insets />
-               </FlowPane.margin>
-               <padding>
-                  <Insets bottom="5.0" />
-               </padding>
-               <font>
-                  <Font size="15.0" />
-               </font>
-            </Label>
-            <ListView fx:id="list_clientList" editable="true" prefHeight="373.0" prefWidth="248.0" />
-         </children>
-         <padding>
-            <Insets left="10.0" right="10.0" top="10.0" />
-         </padding>
-         <BorderPane.margin>
-            <Insets top="-50.0" />
-         </BorderPane.margin>
-      </FlowPane>
-   </right>
    <top>
       <FlowPane maxHeight="50.0" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -99,6 +39,9 @@
                <FlowPane.margin>
                   <Insets top="20.0" />
                </FlowPane.margin>
+               <tooltip>
+                  <Tooltip text="Port to use for communicating with clients. (Defualt: 5555)" />
+               </tooltip>
             </TextField>
             <Separator maxHeight="40.0" orientation="VERTICAL" prefHeight="200.0">
                <FlowPane.margin>
@@ -109,13 +52,151 @@
                <FlowPane.margin>
                   <Insets left="20.0" top="20.0" />
                </FlowPane.margin>
+               <tooltip>
+                  <Tooltip text="Starts the server with current settings." />
+               </tooltip>
             </Button>
             <Button fx:id="button_stop" disable="true" mnemonicParsing="false" onAction="#stop" text="Stop">
                <FlowPane.margin>
                   <Insets left="20.0" top="20.0" />
                </FlowPane.margin>
+               <tooltip>
+                  <Tooltip text="Stop server, disconnecting all clients." />
+               </tooltip>
             </Button>
          </children>
       </FlowPane>
    </top>
+   <right>
+      <BorderPane prefHeight="334.0" prefWidth="224.0" BorderPane.alignment="CENTER">
+         <top>
+            <Label contentDisplay="CENTER" text="Clients:" BorderPane.alignment="CENTER">
+               <padding>
+                  <Insets bottom="10.0" />
+               </padding>
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Label>
+         </top>
+         <center>
+            <ListView fx:id="list_clientList" editable="true" prefHeight="278.0" prefWidth="207.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="5.0" />
+               </BorderPane.margin>
+               <tooltip>
+                  <Tooltip text="Connected clients and their current position." />
+               </tooltip>
+            </ListView>
+         </center>
+         <left>
+            <FlowPane prefHeight="0.0" prefWidth="10.0" vgap="10.0" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets right="10.0" top="100.0" />
+               </BorderPane.margin>
+            </FlowPane>
+         </left>
+      </BorderPane>
+   </right>
+   <center>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab closable="false" text="Light Control">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane prefHeight="334.0" prefWidth="654.0">
+                          <columnConstraints>
+                              <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                              <RowConstraints maxHeight="63.0" minHeight="0.0" prefHeight="33.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="134.0" minHeight="10.0" prefHeight="75.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="107.0" minHeight="10.0" prefHeight="86.0" vgrow="SOMETIMES" />
+                            <RowConstraints maxHeight="98.0" minHeight="10.0" prefHeight="83.0" vgrow="SOMETIMES" />
+                              <RowConstraints maxHeight="82.0" minHeight="4.0" prefHeight="45.0" valignment="CENTER" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Slider fx:id="yellowSlider" max="125.0" onMouseDragged="#changeYellowSliderValue" showTickLabels="true" value="2.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                                 <tooltip>
+                                    <Tooltip text="Time to linger on yellow light in seconds." />
+                                 </tooltip>
+                              </Slider>
+                              <Slider fx:id="greenSlider" max="125.0" onMouseDragged="#changeGreenSliderValue" showTickLabels="true" value="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                                 <tooltip>
+                                    <Tooltip text="Time to linger on green light in seconds." />
+                                 </tooltip>
+                              </Slider>
+                              <Slider fx:id="redSlider" max="125.0" onMouseDragged="#changeRedSliderValue" showTickLabels="true" value="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                 <tooltip>
+                                    <Tooltip text="Time to linger on red light in seconds." />
+                                 </tooltip>
+                              </Slider>
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Red:" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" text="Yellow:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                              <Label text="Green:" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                              <Label fx:id="label_redSliderValue" text="(10)" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                                 <GridPane.margin>
+                                    <Insets left="20.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label fx:id="label_yellowSliderValue" text="(2)" GridPane.columnIndex="2" GridPane.rowIndex="2">
+                                 <GridPane.margin>
+                                    <Insets left="20.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Label fx:id="label_greenSliderValue" text="(10)" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                                 <GridPane.margin>
+                                    <Insets left="20.0" />
+                                 </GridPane.margin>
+                              </Label>
+                              <Button fx:id="button_ApplyChanges" alignment="CENTER_RIGHT" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#applyColors" text="Apply to All" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                                 <tooltip>
+                                    <Tooltip text="Apply color changes and synchronize clients." />
+                                 </tooltip>
+                              </Button>
+                              <CheckBox fx:id="checkbox_sync_colors" mnemonicParsing="false" onAction="#sync_warning" selected="true" text="Sync Red &amp; Green">
+                                 <GridPane.margin>
+                                    <Insets left="40.0" />
+                                 </GridPane.margin>
+                                 <tooltip>
+                                    <Tooltip text="Move red &amp; green sliders seperately. Warning: Desynchronizes the red and green lights!" />
+                                 </tooltip>
+                              </CheckBox>
+                              <Button fx:id="button_applyClient" mnemonicParsing="false" onAction="#applyToClient" text="Apply to Client" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab closable="false" text="Map">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-image: url('/server/Map.png');">
+                           <children>
+                              <Button fx:id="button_trafficLight3" ellipsisString="" layoutX="306.0" layoutY="42.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="48.0" prefWidth="49.0" style="-fx-graphic: url('/server/button_unused.png'); -fx-background-color: transparent;" text="              " />
+                              <Button fx:id="button_trafficLight2" layoutX="337.0" layoutY="224.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="48.0" prefWidth="49.0" style="-fx-graphic: url('/server/button_unused.png'); -fx-background-color: transparent" />
+                              <Button fx:id="button_trafficLight1" ellipsisString="" layoutX="193.0" layoutY="231.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="48.0" prefWidth="49.0" style="-fx-graphic: url('/server/button_unused.png'); -fx-background-color: transparent" text="              " />
+                              <Button fx:id="button_trafficLight4" ellipsisString="" layoutX="144.0" layoutY="54.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="48.0" prefWidth="49.0" style="-fx-graphic: url('/server/button_unused.png'); -fx-background-color: transparent" />
+                              <Button fx:id="button_walking_3" layoutX="326.0" layoutY="164.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="39.0" prefWidth="40.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                              <Button fx:id="button_walking_1" layoutX="202.0" layoutY="175.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="34.0" prefWidth="31.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                              <Button fx:id="button_walking_2" layoutX="248.0" layoutY="203.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="34.0" prefWidth="31.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                              <Button fx:id="button_walking_4" layoutX="286.0" layoutY="201.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="39.0" prefWidth="40.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                              <Button fx:id="button_walking_5" layoutX="271.0" layoutY="83.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="39.0" prefWidth="40.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                              <Button fx:id="button_walking_6" layoutX="311.0" layoutY="114.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="39.0" prefWidth="40.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                              <Button fx:id="button_walking_7" layoutX="213.0" layoutY="71.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="39.0" prefWidth="40.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                              <Button fx:id="button_walking_8" layoutX="173.0" layoutY="122.0" mnemonicParsing="false" onAction="#assignLight" prefHeight="39.0" prefWidth="40.0" style="-fx-graphic: url('/server/button_unused_walk.png'); -fx-background-color: transparent;" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
+   </center>
 </BorderPane>

@@ -12,8 +12,12 @@ import javafx.application.Platform;
 import javafx.collections.*;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.Pane;
+import javafx.stage.Stage;
 
 public class Kickstarter implements Runnable {
 
@@ -22,7 +26,7 @@ public class Kickstarter implements Runnable {
 	public static List<Client> clientList;				// List of clients currently connected. Makes it easy to tell commands to all clients connected to the server.
 	public static List<String> applicableList;			// Is applied to the ListView.
 	public boolean isRunning;							// Stops the server if set to false.
-	private int port;
+	private int port;	
 	
 	/*!
 	 * Default constructor and main method. 
@@ -60,7 +64,7 @@ public class Kickstarter implements Runnable {
 		try ( ServerSocket serverSocket = new ServerSocket(port); ) {
 		   while (isRunning) {
 		       // create and start a new Client thread for each connected client
-			   Client clnt = new Client(serverSocket.accept());
+			   Client clnt = new Client(serverSocket.accept(), 0);
 			   clientList.add(clnt);
 			   clnt.start();
 			   
@@ -69,6 +73,7 @@ public class Kickstarter implements Runnable {
 			   // Required to avoid a thread exception with JavaFX when several clients connect.
 			   // Then sets the applicableList to the ListView on the right hand side.
 			   Platform.runLater(() -> {
+				   synchronizeClients();
 				   list_clientList.setItems(FXCollections.observableArrayList(applicableList));			
 			   });
 		   }
@@ -86,7 +91,9 @@ public class Kickstarter implements Runnable {
 	 *  Is static here instead of GUIController due to JavaFX generated variables should not and cannot be static.
 	 */
 	public static void log(String t){
-		log.appendText(t + "\n");
+		Platform.runLater(() -> {
+			log.appendText(t + "\n");
+		});
 	}
 	
 	/*!
@@ -97,6 +104,26 @@ public class Kickstarter implements Runnable {
 		 for (Client client : clientList) {
 			 client.send(message);
 	     }
+	}
+	
+	public void synchronizeClients(){
+		log("Server: > Waiting to synchronize all clients...");
+		for(Client client : clientList){
+			if(client.getPos() % 2 == 0)
+				client.send("sync0");		// Red is known as 0 in the TrafficLight class.
+			else
+				client.send("sync2");		// Green is known as 2 in the TrafficLight class.
+		}
+		try {
+			Thread.currentThread().sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for(Client client : clientList){
+			client.send("restart");
+		}
+		log("Server: > Clients synchronized.");
 	}
 	
 	/*!
@@ -112,8 +139,14 @@ public class Kickstarter implements Runnable {
        applicableList.clear();									// Clears the client list as server has stopped.
 		Platform.runLater(() -> {
 			list_clientList.setItems(FXCollections.observableArrayList(applicableList));
-		});
-		
+		});	
+   }
+   
+   public boolean assignLight(int list, int pos){
+	   clientList.get(list).setPos(pos);
+	   log("Change position of client: " + clientList.get(list).getIP() + " to another position.");
+	   synchronizeClients();
+	   return true;
    }
 	
 }

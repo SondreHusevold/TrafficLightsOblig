@@ -44,6 +44,8 @@ public class GUIController {
 		appStarter.connect();
 		button_connect.setDisable(true);
 		button_disconnect.setDisable(false);
+		radio_standard.setDisable(true);
+		radio_walk.setDisable(true);
 		System.out.println(button_connect.toString());
 	}
 	
@@ -65,6 +67,8 @@ public class GUIController {
 		appStarter = null;
 		button_connect.setDisable(false);
 		button_disconnect.setDisable(true);
+		radio_standard.setDisable(false);
+		radio_walk.setDisable(false);
 	}
 	
 	public Button getConnect(){

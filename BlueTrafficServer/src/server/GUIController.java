@@ -5,7 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.*;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.stage.*;
 
 import java.io.IOException;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
+
+import javax.swing.JOptionPane;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,28 +34,21 @@ public class GUIController {
 	@FXML
 	private TextField textfield_port;
 	@FXML
-	private Slider yellowSlider;
+	private Slider yellowSlider, greenSlider, redSlider;
 	@FXML
-	private Slider greenSlider;
+	private Label label_redSliderValue, label_yellowSliderValue, label_greenSliderValue;
 	@FXML
-	private Slider redSlider;
-	@FXML
-	private Label label_redSliderValue;
-	@FXML
-	private Label label_yellowSliderValue;
-	@FXML
-	private Label label_greenSliderValue;
-	@FXML
-	private Button button_start;
-	@FXML
-	private Button button_stop;
-	@FXML
-	private Button button_ApplyChanges;
+	private Button button_start, button_stop, button_move_up, button_move_down, button_ApplyChanges, button_applyClient,
+					button_trafficLight1, button_trafficLight2, button_trafficLight3, button_trafficLight4,
+					button_walking_1, button_walking_2, button_walking_3, button_walking_4, button_walking_5, button_walking_6,
+					button_walking_7, button_walking_8;
 	@FXML
 	public TextArea log;
+	@FXML
+	private CheckBox checkbox_sync_colors;
 	
 	final int red = 0, yellow = 1, green = 2;
-
+	boolean checkboxSyncMessage = false;
 	private Kickstarter appStarter;			// Main class to separate the GUI controller and the actual server application.
 	Thread mainThread;						// Thread where the kickstarter runs.
 	
@@ -99,6 +96,10 @@ public class GUIController {
 	public void changeGreenSliderValue(MouseEvent event) {
 		int value = (int) greenSlider.getValue();
 		label_greenSliderValue.setText("(" + value + ")");
+		if(checkbox_sync_colors.isSelected()){
+			redSlider.setValue(value);
+			label_redSliderValue.setText("(" + value + ")");
+		}
 		button_ApplyChanges.setDisable(false);
 	}
 	
@@ -109,6 +110,10 @@ public class GUIController {
 	public void changeRedSliderValue(MouseEvent event) {
 		int value = (int) redSlider.getValue();
 		label_redSliderValue.setText("(" + value + ")");
+		if(checkbox_sync_colors.isSelected()){
+			greenSlider.setValue(value);
+			label_greenSliderValue.setText("(" + value + ")");
+		}
 		button_ApplyChanges.setDisable(false);
 	}
 	
@@ -127,5 +132,56 @@ public class GUIController {
 			appStarter.setFrequency(green, g);
 		}
 		button_ApplyChanges.setDisable(true);
+	}
+	
+	@FXML
+	public void sync_warning(ActionEvent event) {
+		if(!checkboxSyncMessage){
+			new Alert(AlertType.WARNING, "Deselecting this will make it possible to change the red and green bar independently.\n\n"
+				+ " Doing so will make it hard for the traffic lights to synchronize properly.", ButtonType.OK).showAndWait();
+			checkboxSyncMessage = true;
+		}
+	}
+	
+	@FXML
+	public void applyToClient(ActionEvent event){
+		System.out.println(list_clientList.getSelectionModel().getSelectedIndex());
+	}
+	
+	@FXML
+	public void assignWalkingLight(ActionEvent event){
+		
+	}
+	
+	// BEDRE IF TESTING
+	
+	@FXML
+	public void assignLight(ActionEvent event){
+		Button[] buttonArray = {button_trafficLight1, button_trafficLight2, button_trafficLight3, button_trafficLight4};
+ 		if(list_clientList.getSelectionModel() != null){
+ 			for(int i = 0; i < buttonArray.length; i++) {
+ 				if(event.getSource().equals(buttonArray[i])){
+ 					if(appStarter.assignLight(list_clientList.getSelectionModel().getSelectedIndex(), i)){
+ 						buttonArray[i].setStyle("-fx-graphic: url('/server/button_used.png'); -fx-background-color: transparent;");
+ 						return;
+ 					}
+ 						
+ 				}
+			}
+		}
+ 		
+ 		Button[] walkingButtonArray = {button_walking_2, button_walking_4, button_walking_1, button_walking_3, button_walking_5, button_walking_6,
+				button_walking_7, button_walking_8};
+ 		if(list_clientList.getSelectionModel() != null){
+ 			for(int i = 0; i < walkingButtonArray.length; i++) {
+ 				if(event.getSource().equals(walkingButtonArray[i])){
+ 					if(appStarter.assignLight(list_clientList.getSelectionModel().getSelectedIndex(), i)){
+ 						walkingButtonArray[i].setStyle("-fx-graphic: url('/server/button_walk.png'); -fx-background-color: transparent;");
+ 						return;
+ 					}
+ 						
+ 				}
+			}
+		}
 	}
 }

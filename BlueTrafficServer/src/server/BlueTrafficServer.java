@@ -24,7 +24,6 @@ public class BlueTrafficServer extends Application {
 		try {
 			 this.primaryStage = primaryStage;
 			 this.primaryStage.setTitle("Traffic Light Server");
-			
 			 initRootLayout();
 		} catch(Exception e) {
 			e.printStackTrace();

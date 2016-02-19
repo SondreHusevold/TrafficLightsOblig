@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Optional;
 import java.util.concurrent.*;
 
 import javax.swing.JOptionPane;
@@ -14,6 +15,10 @@ import application.TLClient;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class TrafficLight {
@@ -27,6 +32,7 @@ public class TrafficLight {
 	public boolean quit;
 	private PrintWriter out;
 	private BufferedReader in;
+	private boolean walk = false;
 	
 	Light[] lightSwitches;						// Array which contains the three lights which is easily callable by using the finals above.
 	boolean direction;							// Forward or backwards - Red - Yellow - Green, Green - Yellow - Red.
@@ -46,30 +52,19 @@ public class TrafficLight {
 		lightSwitches = new Light[3];
 		lightSwitches[red] = new Light("Red", 5, "/images/Red.png");
 		lightSwitches[yellow] = new Light("Yellow", 2, "/images/Yellow.png");
-		lightSwitches[green] = new Light("Green", 10, "/images/Green.png");
-	}
-	
-	/*!
-	 *  Specific light switching frequency. 
-	 */
-	
-	public TrafficLight(int redF, int yellowF, int greenF, ImageView _view){
-		view = _view;
-		lightSwitches = new Light[3];
-		lightSwitches[red] = new Light("Red", redF, "/images/Red.png");
-		lightSwitches[yellow] = new Light("Yellow", yellowF, "/images/Yellow.png");
-		lightSwitches[green] = new Light("Green", greenF, "/images/Green.png");
+		lightSwitches[green] = new Light("Green", 5, "/images/Green.png");
 	}
 	
 	/*!
 	 * Walking sign
 	 */
-	public TrafficLight(int redF, int greenF, ImageView _view){
+	public TrafficLight( ImageView _view, int redF, int yellowF, int greenF){
 		view = _view;
 		lightSwitches = new Light[3];
 		lightSwitches[red] = new Light("Red", redF, "/images/Walk Red.png");
-		lightSwitches[yellow] = new Light("Yellow", 0, "/images/Walk Red.png");
+		lightSwitches[yellow] = new Light("Yellow", yellowF, "/images/Walk Red.png");
 		lightSwitches[green] = new Light("Green", greenF, "/images/Walk Green.png");
+		walk = true;
 	}
 	
 	/*!
@@ -97,6 +92,10 @@ public class TrafficLight {
 		System.out.println("ERROR: NO LIGHTS ARE ENABLED... RE-ENABLING RED.");
 		lightSwitches[red].enabled(true);
 		return red;
+	}
+	
+	public boolean getWalk(){
+		return walk;
 	}
 	
 	/*
@@ -141,12 +140,16 @@ public class TrafficLight {
 		view.setImage(lightSwitches[getActiveColour()].getImage());
 	}
 	
+	public void changeImage(String image){
+		view.setImage(new Image(image));
+	}
+	
 	/*!
 	 * Schedules the next colour switch by getting the light's frequency.
 	 */
 	
 	public void scheduleNext(){
-		if(!scheduler.isShutdown()){
+		if(!scheduler.isShutdown() && !quit){
 			futureOfSchedulers =
 			    scheduler.schedule(switchColour(), getLightFrequency(getActiveColour()), TimeUnit.SECONDS);
 		}
@@ -166,10 +169,11 @@ public class TrafficLight {
 		catch (IOException e){
 			
 			// Asks to reconnect if it failed to connect to the host.
-			int choice = JOptionPane.showOptionDialog(null, ("Failed to connect to " + hostName + "\n\nReconnect?"), "Failed to connect to host.",
-					JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, null, JOptionPane.YES_OPTION);
-			
-			if(choice == JOptionPane.YES_OPTION)
+			Alert alrt = new Alert(AlertType.ERROR, "Check if server is running.\n\nTry reconnecting?", ButtonType.YES, ButtonType.NO);
+			alrt.setTitle("Unable to connect to server!");
+			alrt.setHeaderText("Could not connect to server.");
+			Optional<ButtonType> result = alrt.showAndWait();
+			if(result.get() == ButtonType.YES)
 				connect(hostName, port);
 			else
 				System.exit(1);
@@ -181,15 +185,33 @@ public class TrafficLight {
 	 */
 	public void disconnect(){
 		try {
-			futureOfSchedulers.cancel(true);
-			scheduler.shutdown();
-			scheduler.awaitTermination(10, TimeUnit.MINUTES);
-			quit = true;
+			if(!scheduler.isShutdown()){
+				futureOfSchedulers.cancel(true);
+				scheduler.shutdown();
+				while (!scheduler.awaitTermination(10, TimeUnit.MINUTES));
+				quit = true;
+			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			System.out.println("SCHEDULER INTERRUPTED!");
 			e.printStackTrace();
 		}
+	}
+	
+	public void initializeScheduler(int colour){
+		System.out.println("INITIALIZING WITH COLOR:" + colour);
+		quit = false;
+		scheduler = Executors.newScheduledThreadPool(3);
+		if(colour == red)
+			direction = true;									// Sets the direction downwards
+		else if(colour == green)
+			direction = false;
+		
+		for(int i = 0; i < lightSwitches.length; i++){
+			lightSwitches[i].enabled(false);
+		}
+		
+		lightSwitches[colour].enabled(true);				// Enables the proper light automatically
 	}
 	
 	/*!
@@ -198,11 +220,7 @@ public class TrafficLight {
 	public void run(){
 		
 		// Initialize scheduler, setup direction and ports.
-		quit = false;
-		scheduler = Executors.newScheduledThreadPool(3);
-		direction = true;									// Sets the direction downwards 
-		lightSwitches[red].enabled(true);					// Enables the red light automatically
-
+		initializeScheduler(red);
 		scheduleNext();										// Schedules the red light for change.
 		changeImage();										// Changes the image to represent what happens above
 		
@@ -210,40 +228,23 @@ public class TrafficLight {
 		Thread t = new Thread(new Runnable() {
 	         public void run()
 	         {
-	        	 try(
-        		  	  PrintWriter out =
-        		                new PrintWriter(clientSocket.getOutputStream(), true);
-        		        // Stream reader from the socket
-        		        BufferedReader in =
-        		                new BufferedReader(
-        		                        new InputStreamReader(clientSocket.getInputStream()));
-        		     ) {
+	        	 try {
 	                 	String receivedText;
-        				while(!futureOfSchedulers.isCancelled() && !quit){   						// As long as the scheduler queue isn't cancelled
+	                 	out = new PrintWriter(clientSocket.getOutputStream(), true);
+	                 	in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+        				while(!futureOfSchedulers.isCancelled() && !quit && !scheduler.isShutdown()){   						// As long as the scheduler queue isn't cancelled
         					
         					if(in.ready()){															// Check for incoming message.
         						receivedText = in.readLine();										// Read IV
         						String encryptedText = in.readLine();								// Read encrypted text
         						String decrypted = Crypto.decrypt(encryptedText, receivedText);		// Decrypt.
         						
-        						if(decrypted.startsWith("kill")){
-        							quit = true;
-        						}
-        						else if(decrypted.startsWith("C")){
-        							
-    								// Typical command will look like this: C015
-        							// C (command that tells client that this is a color frequency command) 
-        							// 0 (final int red as declared at the top.)
-        							// 15 (frequency in seconds)
-        							
-        							int colour = Character.getNumericValue(decrypted.charAt(1));	
-        							lightSwitches[colour].frequency(Integer.parseInt(decrypted.substring(2)));
-        						}
+        						doCommand(decrypted);												// Sets in motion the decrypted command.
         					}
         					
         					if(!(scheduler.isShutdown()) && futureOfSchedulers.isDone()){		// If the scheduler has completed its task of changing the colour
-        						changeImage();													// Change the image
         						scheduleNext();													// Schedule the next colour change.
+        						changeImage();													// Change the image
         					}
         				}
         				
@@ -259,6 +260,8 @@ public class TrafficLight {
             				controller.disconnect();
             				controller.getConnect().setDisable(false);
         				});
+        				in.close();
+        				out.close();
         		    } 
         		    catch (UnknownHostException e) {
         		        System.err.println("ERROR: COULD NOT FIND HOST: " + hostName);
@@ -269,10 +272,56 @@ public class TrafficLight {
         		                hostName);
         		        System.exit(1);
         		    }
-	        	 
+	        	 catch (RejectedExecutionException e){
+	        		 System.out.println("Tried to schedule a new task, but the scheduler was shut down!");
+	        	 }
 	         }
 		});
 		// This will start the thread above. Required, otherwise the thread will never start running the Runnable code.
 		t.start();
+	}
+	
+	/*!
+	 * Completes commands.
+	 * 
+	 * Checks the command from a decrypted input. This is sent from the run method.
+	 * It has three command possibilities:
+	 * * "kill" (server asks this client to shut down).
+	 * * "C***" (color synchronization. See comments below.)
+	 * * "sync" (stops client, waits for server response to synchronize with other clients).
+	 * 
+	 */
+	
+	public void doCommand(String decrypted) throws IOException{
+		if(decrypted.startsWith("kill")){
+			quit = true;
+		}
+		else if(decrypted.startsWith("C")){
+			
+			// Typical command will look like this: C015
+			// C (command that tells client that this is a color frequency command) 
+			// 0 (final int red as declared at the top.)
+			// 15 (frequency in seconds)
+			int colour = Character.getNumericValue(decrypted.charAt(1));	
+			lightSwitches[colour].frequency(Integer.parseInt(decrypted.substring(2)));
+		}
+		else if(decrypted.startsWith("sync")){
+			disconnect();
+			initializeScheduler(Character.getNumericValue(decrypted.charAt(decrypted.length()-1)));
+			System.out.println("Waiting for server response...");
+			if(walk)
+				changeImage("/images/Walk Off.png");
+			else
+				changeImage("/images/Off.png");
+			String receivedText, encryptedText;
+			while((receivedText = in.readLine()) != null){
+				encryptedText = in.readLine();
+				decrypted = Crypto.decrypt(encryptedText, receivedText);
+				if(decrypted.startsWith("restart")){
+					break;
+				}
+			}
+			System.out.println("Got server response. Restarting scheduler now.");
+		}
 	}
 }

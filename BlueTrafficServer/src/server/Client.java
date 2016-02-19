@@ -22,19 +22,29 @@ public class Client extends Thread {
 	private Socket cnctSocket;						// Socket the client is on.
     private InetAddress clntAddr;					// Client's IP address.
     private TextArea log;							// Logging area from the user interface for appending.
-    private  PrintWriter out;
-    private  BufferedReader in;
+    private PrintWriter out;
+    private BufferedReader in;
+    private int pos;
     
     /*!
      * Default constructor. Sets the socket and the client's IP.
      */
-    public Client(Socket _socket) {
+    public Client(Socket _socket, int posi) {
         this.cnctSocket = _socket;
+        pos = posi;
         clntAddr = _socket.getInetAddress();
     }
     
     public String getIP(){
     	return clntAddr.getHostAddress();
+    }
+    
+    public int getPos(){
+    	return pos;
+    }
+    
+    public void setPos(int i){
+    	pos = i;
     }
 
     public void run() {

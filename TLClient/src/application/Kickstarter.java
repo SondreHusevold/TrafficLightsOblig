@@ -24,7 +24,7 @@ public class Kickstarter {
 	
 	public Kickstarter(String hostname, int _port, boolean walk, ImageView view){
 		if(walk)
-			light = new TrafficLight(5, 10, view);
+			light = new TrafficLight(view, 5, 2, 5);
 		else
 			light = new TrafficLight(view);
 		host=hostname;
