@@ -23,23 +23,24 @@ public class Crypto {
 	
 	private final static String key = "MuHFSAtwjwfRfXss";
 	
-	/*
+	/*!
 	 * Encrypts input by using the incoming IV and the command.
+	 * 
 	 * It uses AES with the static key before returning a Base64 encoded String which makes it easy to decode into bytes again once it is received
 	 * on the other end.
 	 * 
 	 */
 	public static String encrypt(String message, String initVector) {
         try {
-            IvParameterSpec iv = new IvParameterSpec(Base64.getDecoder().decode(initVector));
-            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");
+            IvParameterSpec iv = new IvParameterSpec(Base64.getDecoder().decode(initVector));		// Decode Base64 string into the IV
+            SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes("UTF-8"), "AES");				// Create SecretKeySpec out of the key.
 
-            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");
-            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5PADDING");								// Sets cipher and its padding scheme.
+            cipher.init(Cipher.ENCRYPT_MODE, skeySpec, iv);											// Initialize with encryption mode, key and IV
 
-            byte[] encrypted = cipher.doFinal(message.getBytes());
+            byte[] encrypted = cipher.doFinal(message.getBytes());									// Encrypt message into a byte array
 
-            return Base64.getEncoder().encodeToString(encrypted);
+            return Base64.getEncoder().encodeToString(encrypted);									// Encode to a Base64 string.
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -73,7 +74,7 @@ public class Crypto {
 	 }
 
 
-	 /*
+	 /*!
 	  * Creates a random IV.
 	  * 
 	  * This is used to ensure that the encrypted message is different every single time it is sent. If this wasn't the case

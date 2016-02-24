@@ -1,0 +1,156 @@
+\hypertarget{classbackend_1_1_traffic_light}{}\section{backend.\+Traffic\+Light Class Reference}
+\label{classbackend_1_1_traffic_light}\index{backend.\+Traffic\+Light@{backend.\+Traffic\+Light}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classbackend_1_1_traffic_light_a68941f8d3b0bbff67b69f3c189d77788}{Traffic\+Light} (Image\+View \+\_\+view, boolean walk\+\_\+)
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_a4dfc82eed9125fee41834447918ecafe}{set\+Light\+Frequency} (int colour, int seconds)
+\item 
+int {\bfseries get\+Light\+Frequency} (int colour)\hypertarget{classbackend_1_1_traffic_light_afb34bdb3be2f60a76111ed774480ae01}{}\label{classbackend_1_1_traffic_light_afb34bdb3be2f60a76111ed774480ae01}
+
+\item 
+int \hyperlink{classbackend_1_1_traffic_light_a2d0231e3f47fa1003d43069d2dfbf7ec}{get\+Active\+Colour} ()
+\item 
+boolean {\bfseries get\+Walk} ()\hypertarget{classbackend_1_1_traffic_light_a51494a57afd2d10a8791d29b79540b27}{}\label{classbackend_1_1_traffic_light_a51494a57afd2d10a8791d29b79540b27}
+
+\item 
+Callable {\bfseries switch\+Colour} ()\hypertarget{classbackend_1_1_traffic_light_a704ee3bbe733ce6e0e4fbedc9f0794bd}{}\label{classbackend_1_1_traffic_light_a704ee3bbe733ce6e0e4fbedc9f0794bd}
+
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_a3189b2b6440789c714bb004cb792d452}{change\+Image} ()
+\item 
+void {\bfseries change\+Image} (String image)\hypertarget{classbackend_1_1_traffic_light_a353a1c82eadb571e4b982dcab075d2d4}{}\label{classbackend_1_1_traffic_light_a353a1c82eadb571e4b982dcab075d2d4}
+
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_a2dae4e4bfeedec1232e759580fbd2f8c}{schedule\+Next} ()
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_a4dd4e39baf73d8eff0385fd794944eb8}{connect} (String \+\_\+host\+Name, int \+\_\+port)
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_aee505c8f323e1e2c3663e9a9fe0a90f1}{disconnect} ()
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_ad84d11094e93d1ca839c97c27ac55f48}{initialize\+Scheduler} (int colour)
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_a3853f64679ecfcf4c13db7acbaba9c19}{run} ()
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_a80ff066019e22052573b8ab47c655040}{send} (String s)
+\item 
+void \hyperlink{classbackend_1_1_traffic_light_ac9f6beaf190c5cb4b50fee8b5e0f909c}{do\+Command} (String decrypted)  throws I\+O\+Exception
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Image\+View {\bfseries view}\hypertarget{classbackend_1_1_traffic_light_a76ecbec9c0244e880c8c849150dbdb69}{}\label{classbackend_1_1_traffic_light_a76ecbec9c0244e880c8c849150dbdb69}
+
+\item 
+boolean {\bfseries quit}\hypertarget{classbackend_1_1_traffic_light_ad789b37270d95c493d611d67757987c3}{}\label{classbackend_1_1_traffic_light_ad789b37270d95c493d611d67757987c3}
+
+\item 
+Thread {\bfseries tlight\+Thread}\hypertarget{classbackend_1_1_traffic_light_aa8c9e0459fb06dfa8ab52a39b01ff1a2}{}\label{classbackend_1_1_traffic_light_aa8c9e0459fb06dfa8ab52a39b01ff1a2}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+The traffic light class is meant as the actual traffic light or a walking sign.
+
+It consists of three lights -\/ Red, Yellow and Green and is where the client connects with the host. It is here the scheduling is done for the client, and it is here where the server and client communicates. This is also where the images are changed, the frequencies are set and input/output is interpreted. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!Traffic\+Light@{Traffic\+Light}}
+\index{Traffic\+Light@{Traffic\+Light}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{Traffic\+Light(\+Image\+View \+\_\+view, boolean walk\+\_\+)}{TrafficLight(ImageView _view, boolean walk_)}}]{\setlength{\rightskip}{0pt plus 5cm}backend.\+Traffic\+Light.\+Traffic\+Light (
+\begin{DoxyParamCaption}
+\item[{Image\+View}]{\+\_\+view, }
+\item[{boolean}]{walk\+\_\+}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a68941f8d3b0bbff67b69f3c189d77788}{}\label{classbackend_1_1_traffic_light_a68941f8d3b0bbff67b69f3c189d77788}
+Sets the light to default values\+:
+
+Red\+: 5 seconds Yellow\+: 2 seconds. Green\+: 5 seconds. 
+
+\subsection{Member Function Documentation}
+\index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!change\+Image@{change\+Image}}
+\index{change\+Image@{change\+Image}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{change\+Image()}{changeImage()}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+change\+Image (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a3189b2b6440789c714bb004cb792d452}{}\label{classbackend_1_1_traffic_light_a3189b2b6440789c714bb004cb792d452}
+Switches the image shown on the client\textquotesingle{}s user interface. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!connect@{connect}}
+\index{connect@{connect}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{connect(\+String \+\_\+host\+Name, int \+\_\+port)}{connect(String _hostName, int _port)}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+connect (
+\begin{DoxyParamCaption}
+\item[{String}]{\+\_\+host\+Name, }
+\item[{int}]{\+\_\+port}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a4dd4e39baf73d8eff0385fd794944eb8}{}\label{classbackend_1_1_traffic_light_a4dd4e39baf73d8eff0385fd794944eb8}
+Connects to the server by using the client\+Socket. Will start the traffic light immediately after connection succeeded. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{disconnect()}{disconnect()}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+disconnect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_aee505c8f323e1e2c3663e9a9fe0a90f1}{}\label{classbackend_1_1_traffic_light_aee505c8f323e1e2c3663e9a9fe0a90f1}
+Shuts down the scheduler and the scheduler queue. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!do\+Command@{do\+Command}}
+\index{do\+Command@{do\+Command}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{do\+Command(\+String decrypted)}{doCommand(String decrypted)}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+do\+Command (
+\begin{DoxyParamCaption}
+\item[{String}]{decrypted}
+\end{DoxyParamCaption}
+) throws I\+O\+Exception}\hypertarget{classbackend_1_1_traffic_light_ac9f6beaf190c5cb4b50fee8b5e0f909c}{}\label{classbackend_1_1_traffic_light_ac9f6beaf190c5cb4b50fee8b5e0f909c}
+Completes commands.
+
+Checks the command from a decrypted input. This is sent from the run method. It has three command possibilities\+:
+\begin{DoxyItemize}
+\item \char`\"{}kill\char`\"{} (server asks this client to shut down).
+\item \char`\"{}\+C$\ast$$\ast$$\ast$\char`\"{} (color synchronization. See comments below.)
+\item \char`\"{}sync\char`\"{} (stops client, waits for server response to synchronize with other clients). 
+\end{DoxyItemize}\index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!get\+Active\+Colour@{get\+Active\+Colour}}
+\index{get\+Active\+Colour@{get\+Active\+Colour}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{get\+Active\+Colour()}{getActiveColour()}}]{\setlength{\rightskip}{0pt plus 5cm}int backend.\+Traffic\+Light.\+get\+Active\+Colour (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a2d0231e3f47fa1003d43069d2dfbf7ec}{}\label{classbackend_1_1_traffic_light_a2d0231e3f47fa1003d43069d2dfbf7ec}
+Goes through the lights and looks for which one is lit at this point. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!initialize\+Scheduler@{initialize\+Scheduler}}
+\index{initialize\+Scheduler@{initialize\+Scheduler}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{initialize\+Scheduler(int colour)}{initializeScheduler(int colour)}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+initialize\+Scheduler (
+\begin{DoxyParamCaption}
+\item[{int}]{colour}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_ad84d11094e93d1ca839c97c27ac55f48}{}\label{classbackend_1_1_traffic_light_ad84d11094e93d1ca839c97c27ac55f48}
+Initializes the scheduler all over again. Because once it is shut down it is unusable until re-\/initialized. This is done when synchronizing and when connecting. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!run@{run}}
+\index{run@{run}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{run()}{run()}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a3853f64679ecfcf4c13db7acbaba9c19}{}\label{classbackend_1_1_traffic_light_a3853f64679ecfcf4c13db7acbaba9c19}
+Main stuff where all the magic happens. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!schedule\+Next@{schedule\+Next}}
+\index{schedule\+Next@{schedule\+Next}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{schedule\+Next()}{scheduleNext()}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+schedule\+Next (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a2dae4e4bfeedec1232e759580fbd2f8c}{}\label{classbackend_1_1_traffic_light_a2dae4e4bfeedec1232e759580fbd2f8c}
+Schedules the next colour switch by getting the light\textquotesingle{}s frequency. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!send@{send}}
+\index{send@{send}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{send(\+String s)}{send(String s)}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+send (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a80ff066019e22052573b8ab47c655040}{}\label{classbackend_1_1_traffic_light_a80ff066019e22052573b8ab47c655040}
+Sends a string to the server. \index{backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}!set\+Light\+Frequency@{set\+Light\+Frequency}}
+\index{set\+Light\+Frequency@{set\+Light\+Frequency}!backend\+::\+Traffic\+Light@{backend\+::\+Traffic\+Light}}
+\subsubsection[{\texorpdfstring{set\+Light\+Frequency(int colour, int seconds)}{setLightFrequency(int colour, int seconds)}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Traffic\+Light.\+set\+Light\+Frequency (
+\begin{DoxyParamCaption}
+\item[{int}]{colour, }
+\item[{int}]{seconds}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_traffic_light_a4dfc82eed9125fee41834447918ecafe}{}\label{classbackend_1_1_traffic_light_a4dfc82eed9125fee41834447918ecafe}
+Sets light frequency based on incoming arguments. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+T\+L\+Client/src/backend/Traffic\+Light.\+java\end{DoxyCompactItemize}

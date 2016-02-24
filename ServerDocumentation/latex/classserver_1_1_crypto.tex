@@ -1,0 +1,55 @@
+\hypertarget{classserver_1_1_crypto}{}\section{server.\+Crypto Class Reference}
+\label{classserver_1_1_crypto}\index{server.\+Crypto@{server.\+Crypto}}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static String \hyperlink{classserver_1_1_crypto_a3a176b4682bafdfff2db96e7e0930373}{encrypt} (String message, String init\+Vector)
+\item 
+static String \hyperlink{classserver_1_1_crypto_afe179a0b8528595a0e847105d5d43dbf}{decrypt} (String encrypted, String init\+Vector)
+\item 
+static String \hyperlink{classserver_1_1_crypto_ab6d2b770608404214a0a9427b5003724}{get\+Random\+IV} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Cryptographic class.
+
+This class is used to decrypt and encrypt the input and output from the server/client using an A\+ES with an 128-\/bit key. It has a symmetrical key as seen below and will use a random generated 16-\/byte IV which is sent with the message to always output different encrypted results every time.
+
+This will ensure that no one will be able to see the different commands sent by the server/client to interact which means no one can act like the server and send the stop command to the clients without being the server with the correctly encrypted commands. 
+
+\subsection{Member Function Documentation}
+\index{server\+::\+Crypto@{server\+::\+Crypto}!decrypt@{decrypt}}
+\index{decrypt@{decrypt}!server\+::\+Crypto@{server\+::\+Crypto}}
+\subsubsection[{\texorpdfstring{decrypt(\+String encrypted, String init\+Vector)}{decrypt(String encrypted, String initVector)}}]{\setlength{\rightskip}{0pt plus 5cm}static String server.\+Crypto.\+decrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{encrypted, }
+\item[{String}]{init\+Vector}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classserver_1_1_crypto_afe179a0b8528595a0e847105d5d43dbf}{}\label{classserver_1_1_crypto_afe179a0b8528595a0e847105d5d43dbf}
+Decrypts the input by using the encrypted text and the IV.
+
+Will first decode the IV into a 16-\/byte array and then use the static symmetric key to decrypt the message through A\+ES. \index{server\+::\+Crypto@{server\+::\+Crypto}!encrypt@{encrypt}}
+\index{encrypt@{encrypt}!server\+::\+Crypto@{server\+::\+Crypto}}
+\subsubsection[{\texorpdfstring{encrypt(\+String message, String init\+Vector)}{encrypt(String message, String initVector)}}]{\setlength{\rightskip}{0pt plus 5cm}static String server.\+Crypto.\+encrypt (
+\begin{DoxyParamCaption}
+\item[{String}]{message, }
+\item[{String}]{init\+Vector}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classserver_1_1_crypto_a3a176b4682bafdfff2db96e7e0930373}{}\label{classserver_1_1_crypto_a3a176b4682bafdfff2db96e7e0930373}
+Encrypts input by using the incoming IV and the command.
+
+It uses A\+ES with the static key before returning a Base64 encoded String which makes it easy to decode into bytes again once it is received on the other end. \index{server\+::\+Crypto@{server\+::\+Crypto}!get\+Random\+IV@{get\+Random\+IV}}
+\index{get\+Random\+IV@{get\+Random\+IV}!server\+::\+Crypto@{server\+::\+Crypto}}
+\subsubsection[{\texorpdfstring{get\+Random\+I\+V()}{getRandomIV()}}]{\setlength{\rightskip}{0pt plus 5cm}static String server.\+Crypto.\+get\+Random\+IV (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classserver_1_1_crypto_ab6d2b770608404214a0a9427b5003724}{}\label{classserver_1_1_crypto_ab6d2b770608404214a0a9427b5003724}
+Creates a random IV.
+
+This is used to ensure that the encrypted message is different every single time it is sent. If this wasn\textquotesingle{}t the case it would be easy to see that the same messages are being sent as the encrypted text would be the same every time. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Blue\+Traffic\+Server/src/server/Crypto.\+java\end{DoxyCompactItemize}

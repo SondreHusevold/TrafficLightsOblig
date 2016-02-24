@@ -17,17 +17,6 @@ public class Light {
 	private Image image;					// The light's image representation.
 	
 	/*!
-	 * Never actually used, but there in case.
-	 * 
-	 * Might be removed at the end of project.
-	 */
-	public Light(String imageName){
-		image = new Image(imageName);
-		frequency = 10;
-		name = "Default";
-	}
-	
-	/*!
 	 * The default constructor used in the traffic light class. 
 	 * 
 	 * Has the light's name, frequency and the image representation as parameters. 
@@ -40,27 +29,29 @@ public class Light {
 	}
 	
 	/*!
-	 * Used for yellow light in walking signals since yellow is never shown.
+	 * Gets the image for this light.
 	 */
-	
-	public void name(String newName, String imageName){
-		name = newName;
-		image = new Image(imageName);
-	}
-	
 	public Image getImage(){
 		return image;
 	}
 	
+	/*!
+	 * Gets the name for this light.
+	 */
 	public String getName(){
 		return name;
 	}
 	
+	/*!
+	 * Sets the frequency in seconds for this light.
+	 */
 	public void frequency(int newFreq){
-		System.out.println("CHANGED FREQUENCY OF " + getName() + " to " + newFreq);
 		frequency = newFreq;
 	}
 	
+	/*!
+	 * Gets the frequency in seconds for this light.
+	 */
 	public int getFrequency(){
 		return frequency;
 	}

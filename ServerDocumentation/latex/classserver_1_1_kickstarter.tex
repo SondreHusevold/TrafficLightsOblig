@@ -1,0 +1,130 @@
+\hypertarget{classserver_1_1_kickstarter}{}\section{server.\+Kickstarter Class Reference}
+\label{classserver_1_1_kickstarter}\index{server.\+Kickstarter@{server.\+Kickstarter}}
+Inheritance diagram for server.\+Kickstarter\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classserver_1_1_kickstarter}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classserver_1_1_kickstarter_a07a921c9b5b248b6c696fd84022126cc}{Kickstarter} (List\+View$<$ String $>$ \+\_\+list\+\_\+client\+List, int arg\+Port, Text\+Area \+\_\+log)  throws I\+O\+Exception
+\item 
+void \hyperlink{classserver_1_1_kickstarter_ab6d66e280ed60dafe8ca1f7b7d63b21e}{run} ()
+\item 
+void \hyperlink{classserver_1_1_kickstarter_a1b0a95c249c2e13bcc6218e3e24b3f29}{set\+Frequency} (int color, int frequency)
+\item 
+void \hyperlink{classserver_1_1_kickstarter_af04e25f1ce0ef4920bb044f0a0ad8b78}{synchronize\+Clients} ()
+\item 
+void \hyperlink{classserver_1_1_kickstarter_a5842570621b483e05c31d05fa593ee4a}{kill} ()
+\item 
+boolean \hyperlink{classserver_1_1_kickstarter_ac3e3c0348f02cc1a08cfa49a7990491d}{assign\+Light} (Button b, int list, int pos, boolean walk)
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{classserver_1_1_kickstarter_ab976bbeaa74e2b6a9b61126707df9140}{log} (String t)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+boolean {\bfseries is\+Running}\hypertarget{classserver_1_1_kickstarter_a184746683b94fbb9b35d09597fed892e}{}\label{classserver_1_1_kickstarter_a184746683b94fbb9b35d09597fed892e}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Text\+Area {\bfseries log}\hypertarget{classserver_1_1_kickstarter_ae8a852a9e388b350610fad0f51178ab6}{}\label{classserver_1_1_kickstarter_ae8a852a9e388b350610fad0f51178ab6}
+
+\item 
+static List\+View$<$ String $>$ {\bfseries list\+\_\+client\+List}\hypertarget{classserver_1_1_kickstarter_ac9e598cda0986ee51231eb6b6bcd084f}{}\label{classserver_1_1_kickstarter_ac9e598cda0986ee51231eb6b6bcd084f}
+
+\item 
+static List$<$ \hyperlink{classserver_1_1_client}{Client} $>$ {\bfseries client\+List}\hypertarget{classserver_1_1_kickstarter_a841d1ef40496a543ee9319983884fd07}{}\label{classserver_1_1_kickstarter_a841d1ef40496a543ee9319983884fd07}
+
+\item 
+static List$<$ String $>$ {\bfseries applicable\+List}\hypertarget{classserver_1_1_kickstarter_a6ed3fe0b4d90f3de3b315bcb70ea89e1}{}\label{classserver_1_1_kickstarter_a6ed3fe0b4d90f3de3b315bcb70ea89e1}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class is meant as a main method thread where lists, sockets and other information is initialized and taken care of. It is basically a bridge between the \hyperlink{classserver_1_1_g_u_i_controller}{G\+U\+I\+Controller} and the respective clients. This ensures that the \hyperlink{classserver_1_1_g_u_i_controller}{G\+U\+I\+Controller} won\textquotesingle{}t need to have the list fields, nor need to create new clients or listen to the socket for new incoming clients.
+
+This class also synchronizes all clients, and will send a kill command to them if the server is abruptly stopped. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{server\+::\+Kickstarter@{server\+::\+Kickstarter}!Kickstarter@{Kickstarter}}
+\index{Kickstarter@{Kickstarter}!server\+::\+Kickstarter@{server\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{Kickstarter(\+List\+View$<$ String $>$ \+\_\+list\+\_\+client\+List, int arg\+Port, Text\+Area \+\_\+log)}{Kickstarter(ListView< String > _list_clientList, int argPort, TextArea _log)}}]{\setlength{\rightskip}{0pt plus 5cm}server.\+Kickstarter.\+Kickstarter (
+\begin{DoxyParamCaption}
+\item[{List\+View$<$ String $>$}]{\+\_\+list\+\_\+client\+List, }
+\item[{int}]{arg\+Port, }
+\item[{Text\+Area}]{\+\_\+log}
+\end{DoxyParamCaption}
+) throws I\+O\+Exception}\hypertarget{classserver_1_1_kickstarter_a07a921c9b5b248b6c696fd84022126cc}{}\label{classserver_1_1_kickstarter_a07a921c9b5b248b6c696fd84022126cc}
+Default constructor and main method.
+
+Will set all parameters to their respective variables. Will also create a listener on the list of clients. 
+
+\subsection{Member Function Documentation}
+\index{server\+::\+Kickstarter@{server\+::\+Kickstarter}!assign\+Light@{assign\+Light}}
+\index{assign\+Light@{assign\+Light}!server\+::\+Kickstarter@{server\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{assign\+Light(\+Button b, int list, int pos, boolean walk)}{assignLight(Button b, int list, int pos, boolean walk)}}]{\setlength{\rightskip}{0pt plus 5cm}boolean server.\+Kickstarter.\+assign\+Light (
+\begin{DoxyParamCaption}
+\item[{Button}]{b, }
+\item[{int}]{list, }
+\item[{int}]{pos, }
+\item[{boolean}]{walk}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_kickstarter_ac3e3c0348f02cc1a08cfa49a7990491d}{}\label{classserver_1_1_kickstarter_ac3e3c0348f02cc1a08cfa49a7990491d}
+This will active once a button is pressed on the map tab.
+
+It will assign a map position for the client and its button. It will then log it and synchronize all the clients to ensure they are all on the same page. This will thus change their synchronization depending on where they stand on the map. \index{server\+::\+Kickstarter@{server\+::\+Kickstarter}!kill@{kill}}
+\index{kill@{kill}!server\+::\+Kickstarter@{server\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{kill()}{kill()}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Kickstarter.\+kill (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_kickstarter_a5842570621b483e05c31d05fa593ee4a}{}\label{classserver_1_1_kickstarter_a5842570621b483e05c31d05fa593ee4a}
+Kills all client threads by killing the \char`\"{}is\+Running\char`\"{} part of \hyperlink{classserver_1_1_kickstarter_ab6d66e280ed60dafe8ca1f7b7d63b21e}{run()}.
+
+This is used to tell all clients that the server is shutting down and will no longer respond. \index{server\+::\+Kickstarter@{server\+::\+Kickstarter}!log@{log}}
+\index{log@{log}!server\+::\+Kickstarter@{server\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{log(\+String t)}{log(String t)}}]{\setlength{\rightskip}{0pt plus 5cm}static void server.\+Kickstarter.\+log (
+\begin{DoxyParamCaption}
+\item[{String}]{t}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}\hypertarget{classserver_1_1_kickstarter_ab976bbeaa74e2b6a9b61126707df9140}{}\label{classserver_1_1_kickstarter_ab976bbeaa74e2b6a9b61126707df9140}
+Logs by appending to the log textarea in the application.
+
+Is static here instead of \hyperlink{classserver_1_1_g_u_i_controller}{G\+U\+I\+Controller} due to Java\+FX generated variables should not and cannot be static. \index{server\+::\+Kickstarter@{server\+::\+Kickstarter}!run@{run}}
+\index{run@{run}!server\+::\+Kickstarter@{server\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{run()}{run()}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Kickstarter.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_kickstarter_ab6d66e280ed60dafe8ca1f7b7d63b21e}{}\label{classserver_1_1_kickstarter_ab6d66e280ed60dafe8ca1f7b7d63b21e}
+As long as the \char`\"{}is\+Running\char`\"{} boolean is true, the server will listen on the port for clients who want to respond. Once the server accepts a client, it\textquotesingle{}ll add it to the client\+List where the listener will pick it up and add it to the list of clients. From here, the client will have its own thread where it can communicate with the server. \index{server\+::\+Kickstarter@{server\+::\+Kickstarter}!set\+Frequency@{set\+Frequency}}
+\index{set\+Frequency@{set\+Frequency}!server\+::\+Kickstarter@{server\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{set\+Frequency(int color, int frequency)}{setFrequency(int color, int frequency)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Kickstarter.\+set\+Frequency (
+\begin{DoxyParamCaption}
+\item[{int}]{color, }
+\item[{int}]{frequency}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_kickstarter_a1b0a95c249c2e13bcc6218e3e24b3f29}{}\label{classserver_1_1_kickstarter_a1b0a95c249c2e13bcc6218e3e24b3f29}
+Sends the new light frequencies to all lights. \index{server\+::\+Kickstarter@{server\+::\+Kickstarter}!synchronize\+Clients@{synchronize\+Clients}}
+\index{synchronize\+Clients@{synchronize\+Clients}!server\+::\+Kickstarter@{server\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{synchronize\+Clients()}{synchronizeClients()}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Kickstarter.\+synchronize\+Clients (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_kickstarter_af04e25f1ce0ef4920bb044f0a0ad8b78}{}\label{classserver_1_1_kickstarter_af04e25f1ce0ef4920bb044f0a0ad8b78}
+Synchronizes all the clients by sending each client a \textquotesingle{}sync0\textquotesingle{} or \textquotesingle{}sync2\textquotesingle{} command. The numbers at the end of these commands corresponds to which lane they\textquotesingle{}re supposed to synchronize with.
+
+The thread will then sleep for around a second to ensure that all the clients are done cancelling their jobs and ready to start over again. After that second has passed, it\textquotesingle{}ll send all the clients a \textquotesingle{}restart\textquotesingle{} command and they\textquotesingle{}ll all end their loops and begin anew simultaneously. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Blue\+Traffic\+Server/src/server/Kickstarter.\+java\end{DoxyCompactItemize}

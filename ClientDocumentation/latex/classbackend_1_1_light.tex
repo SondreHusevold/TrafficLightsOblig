@@ -1,0 +1,88 @@
+\hypertarget{classbackend_1_1_light}{}\section{backend.\+Light Class Reference}
+\label{classbackend_1_1_light}\index{backend.\+Light@{backend.\+Light}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classbackend_1_1_light_ae178ed543c16a272525f125b546bcdc7}{Light} (String \+\_\+name, int freq, String image\+Name)
+\item 
+Image \hyperlink{classbackend_1_1_light_ad532db1f7e6546f1eb4c760f84d3092f}{get\+Image} ()
+\item 
+String \hyperlink{classbackend_1_1_light_afb407ae3e7f06bcd31ba9804bf93a650}{get\+Name} ()
+\item 
+void \hyperlink{classbackend_1_1_light_a3d80e153d8b8040dc407e9a38a7c056a}{frequency} (int new\+Freq)
+\item 
+int \hyperlink{classbackend_1_1_light_ae6e17df986c1ebb3bb23d551ff56237b}{get\+Frequency} ()
+\item 
+void \hyperlink{classbackend_1_1_light_a7c32c5e1c8a2e62d3022803ceb31f9cf}{enabled} (boolean bool)
+\item 
+boolean \hyperlink{classbackend_1_1_light_a012219634e4d5e30adc50b5a96b405b7}{is\+Enabled} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class contains all the information about the light. This simplifies the Traffic \hyperlink{classbackend_1_1_light}{Light} structure by encapsulating all light information inside a single class that the traffic light manipulates.
+
+There are usually three of these inside the traffic light -\/ red, yellow and green. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{backend\+::\+Light@{backend\+::\+Light}!Light@{Light}}
+\index{Light@{Light}!backend\+::\+Light@{backend\+::\+Light}}
+\subsubsection[{\texorpdfstring{Light(\+String \+\_\+name, int freq, String image\+Name)}{Light(String _name, int freq, String imageName)}}]{\setlength{\rightskip}{0pt plus 5cm}backend.\+Light.\+Light (
+\begin{DoxyParamCaption}
+\item[{String}]{\+\_\+name, }
+\item[{int}]{freq, }
+\item[{String}]{image\+Name}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_light_ae178ed543c16a272525f125b546bcdc7}{}\label{classbackend_1_1_light_ae178ed543c16a272525f125b546bcdc7}
+The default constructor used in the traffic light class.
+
+Has the light\textquotesingle{}s name, frequency and the image representation as parameters. 
+
+\subsection{Member Function Documentation}
+\index{backend\+::\+Light@{backend\+::\+Light}!enabled@{enabled}}
+\index{enabled@{enabled}!backend\+::\+Light@{backend\+::\+Light}}
+\subsubsection[{\texorpdfstring{enabled(boolean bool)}{enabled(boolean bool)}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Light.\+enabled (
+\begin{DoxyParamCaption}
+\item[{boolean}]{bool}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_light_a7c32c5e1c8a2e62d3022803ceb31f9cf}{}\label{classbackend_1_1_light_a7c32c5e1c8a2e62d3022803ceb31f9cf}
+Sets whether or not the light is lit up. \index{backend\+::\+Light@{backend\+::\+Light}!frequency@{frequency}}
+\index{frequency@{frequency}!backend\+::\+Light@{backend\+::\+Light}}
+\subsubsection[{\texorpdfstring{frequency(int new\+Freq)}{frequency(int newFreq)}}]{\setlength{\rightskip}{0pt plus 5cm}void backend.\+Light.\+frequency (
+\begin{DoxyParamCaption}
+\item[{int}]{new\+Freq}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_light_a3d80e153d8b8040dc407e9a38a7c056a}{}\label{classbackend_1_1_light_a3d80e153d8b8040dc407e9a38a7c056a}
+Sets the frequency in seconds for this light. \index{backend\+::\+Light@{backend\+::\+Light}!get\+Frequency@{get\+Frequency}}
+\index{get\+Frequency@{get\+Frequency}!backend\+::\+Light@{backend\+::\+Light}}
+\subsubsection[{\texorpdfstring{get\+Frequency()}{getFrequency()}}]{\setlength{\rightskip}{0pt plus 5cm}int backend.\+Light.\+get\+Frequency (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_light_ae6e17df986c1ebb3bb23d551ff56237b}{}\label{classbackend_1_1_light_ae6e17df986c1ebb3bb23d551ff56237b}
+Gets the frequency in seconds for this light. \index{backend\+::\+Light@{backend\+::\+Light}!get\+Image@{get\+Image}}
+\index{get\+Image@{get\+Image}!backend\+::\+Light@{backend\+::\+Light}}
+\subsubsection[{\texorpdfstring{get\+Image()}{getImage()}}]{\setlength{\rightskip}{0pt plus 5cm}Image backend.\+Light.\+get\+Image (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_light_ad532db1f7e6546f1eb4c760f84d3092f}{}\label{classbackend_1_1_light_ad532db1f7e6546f1eb4c760f84d3092f}
+Gets the image for this light. \index{backend\+::\+Light@{backend\+::\+Light}!get\+Name@{get\+Name}}
+\index{get\+Name@{get\+Name}!backend\+::\+Light@{backend\+::\+Light}}
+\subsubsection[{\texorpdfstring{get\+Name()}{getName()}}]{\setlength{\rightskip}{0pt plus 5cm}String backend.\+Light.\+get\+Name (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_light_afb407ae3e7f06bcd31ba9804bf93a650}{}\label{classbackend_1_1_light_afb407ae3e7f06bcd31ba9804bf93a650}
+Gets the name for this light. \index{backend\+::\+Light@{backend\+::\+Light}!is\+Enabled@{is\+Enabled}}
+\index{is\+Enabled@{is\+Enabled}!backend\+::\+Light@{backend\+::\+Light}}
+\subsubsection[{\texorpdfstring{is\+Enabled()}{isEnabled()}}]{\setlength{\rightskip}{0pt plus 5cm}boolean backend.\+Light.\+is\+Enabled (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classbackend_1_1_light_a012219634e4d5e30adc50b5a96b405b7}{}\label{classbackend_1_1_light_a012219634e4d5e30adc50b5a96b405b7}
+Gets whether or not the light is lit up. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+T\+L\+Client/src/backend/Light.\+java\end{DoxyCompactItemize}

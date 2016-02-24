@@ -1,13 +1,10 @@
 package application;
 
 import javafx.fxml.FXML;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
-
+import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
-
 import javafx.scene.image.ImageView;
 
 /*!
@@ -29,9 +26,15 @@ public class GUIController {
     private RadioButton radio_standard;
     @FXML
     private RadioButton radio_walk;
-	
+    
 	private Kickstarter appStarter;
-
+    
+    // Static wrapper workaround for an ugly bug with the user interface where the connection buttons won't stop being enabled after being disconnected
+    // forcefully by the server. This problem is also exists if button.setDisabled() is ran through Platform.RunLater and/or loading the GUIController through an FXML Loader. 
+	// This half-assed solution solves it by allowing the traffic light to forcefully change the buttons statically.
+    public static Button sbutton_connect, sbutton_disconnect;
+    public static RadioButton sradio_standard, sradio_walk;
+    
 	/*!
 	 * Button event when the button_connect is pressed.
 	 * 
@@ -40,20 +43,32 @@ public class GUIController {
 	 */
 	@FXML
 	public void connect(ActionEvent event) {
-		appStarter = new Kickstarter(textfield_server.getText(), Integer.parseInt(textfield_port.getText()), radio_walk.isSelected(), image_currentLight);
+		
+		// Setting workaround buttons here so that they work after disconnecting.
+		sbutton_connect = button_connect;
+		sbutton_disconnect = button_disconnect;
+		sradio_standard = radio_standard;
+		sradio_walk = radio_walk;
+		
+		int port;
+		try{
+			port = Integer.parseInt(textfield_port.getText());
+		}
+		catch(NumberFormatException e){
+			new Alert(AlertType.ERROR, "Port invalid. Falling back on 5555...", ButtonType.OK).showAndWait();
+			port = 5555;
+		}
+		
+		appStarter = new Kickstarter(textfield_server.getText(), port, radio_walk.isSelected(), image_currentLight);
 		appStarter.connect();
-		button_connect.setDisable(true);
-		button_disconnect.setDisable(false);
-		radio_standard.setDisable(true);
-		radio_walk.setDisable(true);
-		System.out.println(button_connect.toString());
+		changeConnectionButtons(true);
 	}
 	
 	/*!
 	 * Button event when the button_disconnect is pressed.
 	 * 
 	 * Disconnects the client by stopping the threads and nulling the bridge killing off the client's connection completely.
-	 * Also reenables the connect button.
+	 * Also reenables the connect button by using the workaround.
 	 */
 	@FXML
 	public void disconnect(ActionEvent event) {
@@ -61,18 +76,26 @@ public class GUIController {
 	}
 	
 	public void disconnect() {
+		changeConnectionButtons(false);
 		if(appStarter != null){
 			appStarter.disconnect();
 		}
 		appStarter = null;
-		button_connect.setDisable(false);
-		button_disconnect.setDisable(true);
-		radio_standard.setDisable(false);
-		radio_walk.setDisable(false);
 	}
 	
-	public Button getConnect(){
-		return button_connect;
+	public static void changeConnectionButtons(boolean connect){
+		if(sbutton_connect != null && connect){
+			sbutton_connect.setDisable(true);
+			sbutton_disconnect.setDisable(false);
+			sradio_standard.setDisable(true);
+			sradio_walk.setDisable(true);
+		}
+		else if(sbutton_connect != null){
+			sbutton_connect.setDisable(false);
+			sbutton_disconnect.setDisable(true);
+			sradio_standard.setDisable(false);
+			sradio_walk.setDisable(false);
+		}
 	}
 	
 	/*!
@@ -92,4 +115,5 @@ public class GUIController {
     	radio_walk.setSelected(true);
     	radio_standard.setSelected(false);
     }
+    
 }

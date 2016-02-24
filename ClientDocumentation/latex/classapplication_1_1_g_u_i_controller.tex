@@ -1,0 +1,68 @@
+\hypertarget{classapplication_1_1_g_u_i_controller}{}\section{application.\+G\+U\+I\+Controller Class Reference}
+\label{classapplication_1_1_g_u_i_controller}\index{application.\+G\+U\+I\+Controller@{application.\+G\+U\+I\+Controller}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classapplication_1_1_g_u_i_controller_ab633aa7b0d15917ec268a9a98affe53e}{connect} (Action\+Event event)
+\item 
+void \hyperlink{classapplication_1_1_g_u_i_controller_a560f50480318cf3c026e748e9d0e175d}{disconnect} (Action\+Event event)
+\item 
+void {\bfseries disconnect} ()\hypertarget{classapplication_1_1_g_u_i_controller_a1f23ccf4e55ce4a5a6ddcd86d090d3db}{}\label{classapplication_1_1_g_u_i_controller_a1f23ccf4e55ce4a5a6ddcd86d090d3db}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void {\bfseries change\+Connection\+Buttons} (boolean \hyperlink{classapplication_1_1_g_u_i_controller_ab633aa7b0d15917ec268a9a98affe53e}{connect})\hypertarget{classapplication_1_1_g_u_i_controller_aa1c5b4085059ed56807425692e87e608}{}\label{classapplication_1_1_g_u_i_controller_aa1c5b4085059ed56807425692e87e608}
+
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+Button {\bfseries button\+\_\+connect}\hypertarget{classapplication_1_1_g_u_i_controller_a6ade76f171c517d12818262a6acf22f9}{}\label{classapplication_1_1_g_u_i_controller_a6ade76f171c517d12818262a6acf22f9}
+
+\item 
+Button {\bfseries button\+\_\+disconnect}\hypertarget{classapplication_1_1_g_u_i_controller_adf0551f395ff11e60c5587ddd6c052ef}{}\label{classapplication_1_1_g_u_i_controller_adf0551f395ff11e60c5587ddd6c052ef}
+
+\item 
+Image\+View {\bfseries image\+\_\+current\+Light}\hypertarget{classapplication_1_1_g_u_i_controller_aecfe62ae1040631b8963cbc2633b4dd5}{}\label{classapplication_1_1_g_u_i_controller_aecfe62ae1040631b8963cbc2633b4dd5}
+
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static Button {\bfseries sbutton\+\_\+connect}\hypertarget{classapplication_1_1_g_u_i_controller_a7e58633df5cb9f7992ea250f126363d0}{}\label{classapplication_1_1_g_u_i_controller_a7e58633df5cb9f7992ea250f126363d0}
+
+\item 
+static Radio\+Button {\bfseries sradio\+\_\+standard}\hypertarget{classapplication_1_1_g_u_i_controller_a8daa294d1887172f654fdb68bbe7f98e}{}\label{classapplication_1_1_g_u_i_controller_a8daa294d1887172f654fdb68bbe7f98e}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Java\+FX controller to control the Scene Builder created user interface. 
+
+\subsection{Member Function Documentation}
+\index{application\+::\+G\+U\+I\+Controller@{application\+::\+G\+U\+I\+Controller}!connect@{connect}}
+\index{connect@{connect}!application\+::\+G\+U\+I\+Controller@{application\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{connect(\+Action\+Event event)}{connect(ActionEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void application.\+G\+U\+I\+Controller.\+connect (
+\begin{DoxyParamCaption}
+\item[{Action\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classapplication_1_1_g_u_i_controller_ab633aa7b0d15917ec268a9a98affe53e}{}\label{classapplication_1_1_g_u_i_controller_ab633aa7b0d15917ec268a9a98affe53e}
+Button event when the button\+\_\+connect is pressed.
+
+Connects the client by creating the bridge between the Traffic Light and the G\+UI and sending user interface related information from the host field, the port field and type fields. While also sending the imageview further down the classes. \index{application\+::\+G\+U\+I\+Controller@{application\+::\+G\+U\+I\+Controller}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!application\+::\+G\+U\+I\+Controller@{application\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{disconnect(\+Action\+Event event)}{disconnect(ActionEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void application.\+G\+U\+I\+Controller.\+disconnect (
+\begin{DoxyParamCaption}
+\item[{Action\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classapplication_1_1_g_u_i_controller_a560f50480318cf3c026e748e9d0e175d}{}\label{classapplication_1_1_g_u_i_controller_a560f50480318cf3c026e748e9d0e175d}
+Button event when the button\+\_\+disconnect is pressed.
+
+Disconnects the client by stopping the threads and nulling the bridge killing off the client\textquotesingle{}s connection completely. Also reenables the connect button by using the workaround. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+T\+L\+Client/src/application/G\+U\+I\+Controller.\+java\end{DoxyCompactItemize}

@@ -5,6 +5,7 @@ import javafx.scene.image.ImageView;
 
 /*!
  * This class is meant as a bridge between the GUI Controller and the Traffic Light.
+ * 
  * The reason for this being the Main class (TLClient) is mainly used to initialize the GUI and its JavaFX controller,
  * thus in order to separate the GUI controller and what actually starts the client backend, 
  * this acts like the main method to kickstart the client instead of handling client objects inside the GUI controller. 
@@ -23,11 +24,8 @@ public class Kickstarter {
 	 */
 	
 	public Kickstarter(String hostname, int _port, boolean walk, ImageView view){
-		if(walk)
-			light = new TrafficLight(view, 5, 2, 5);
-		else
-			light = new TrafficLight(view);
-		host=hostname;
+		light = new TrafficLight(view, walk);
+		host = hostname;
 		port = _port;
 	}
 	

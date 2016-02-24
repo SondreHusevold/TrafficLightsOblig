@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.image.*?>
 <?import javafx.scene.text.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -124,12 +125,12 @@
                                     <Tooltip text="Time to linger on yellow light in seconds." />
                                  </tooltip>
                               </Slider>
-                              <Slider fx:id="greenSlider" max="125.0" onMouseDragged="#changeGreenSliderValue" showTickLabels="true" value="10.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+                              <Slider fx:id="greenSlider" max="125.0" onMouseDragged="#changeGreenSliderValue" showTickLabels="true" value="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                                  <tooltip>
                                     <Tooltip text="Time to linger on green light in seconds." />
                                  </tooltip>
                               </Slider>
-                              <Slider fx:id="redSlider" max="125.0" onMouseDragged="#changeRedSliderValue" showTickLabels="true" value="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                              <Slider fx:id="redSlider" max="125.0" onMouseDragged="#changeRedSliderValue" showTickLabels="true" value="5.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                                  <tooltip>
                                     <Tooltip text="Time to linger on red light in seconds." />
                                  </tooltip>
@@ -137,7 +138,7 @@
                               <Label alignment="CENTER" contentDisplay="CENTER" text="Red:" textAlignment="JUSTIFY" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
                               <Label alignment="CENTER" contentDisplay="CENTER" text="Yellow:" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
                               <Label text="Green:" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                              <Label fx:id="label_redSliderValue" text="(10)" GridPane.columnIndex="2" GridPane.rowIndex="1">
+                              <Label fx:id="label_redSliderValue" text="(5)" GridPane.columnIndex="2" GridPane.rowIndex="1">
                                  <GridPane.margin>
                                     <Insets left="20.0" />
                                  </GridPane.margin>
@@ -147,12 +148,12 @@
                                     <Insets left="20.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Label fx:id="label_greenSliderValue" text="(10)" GridPane.columnIndex="2" GridPane.rowIndex="3">
+                              <Label fx:id="label_greenSliderValue" text="(5)" GridPane.columnIndex="2" GridPane.rowIndex="3">
                                  <GridPane.margin>
                                     <Insets left="20.0" />
                                  </GridPane.margin>
                               </Label>
-                              <Button fx:id="button_ApplyChanges" alignment="CENTER_RIGHT" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#applyColors" text="Apply to All" GridPane.halignment="RIGHT" GridPane.rowIndex="4">
+                              <Button fx:id="button_ApplyChanges" alignment="CENTER_RIGHT" contentDisplay="RIGHT" disable="true" mnemonicParsing="false" onAction="#applyColors" text="Apply to All" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4">
                                  <tooltip>
                                     <Tooltip text="Apply color changes and synchronize clients." />
                                  </tooltip>
@@ -165,7 +166,6 @@
                                     <Tooltip text="Move red &amp; green sliders seperately. Warning: Desynchronizes the red and green lights!" />
                                  </tooltip>
                               </CheckBox>
-                              <Button fx:id="button_applyClient" mnemonicParsing="false" onAction="#applyToClient" text="Apply to Client" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
                            </children>
                         </GridPane>
                      </children>

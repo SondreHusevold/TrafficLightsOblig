@@ -8,6 +8,11 @@ import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 
+/*!
+ * This is the main class and it basically doesn't do anything except setting up the window using JavaFX.
+ * 
+ * Most of the important stuff is done from the Kickstarter class instead of this one.
+ */
 
 public class TLClient extends Application {
 	 private Stage primaryStage;
@@ -18,7 +23,6 @@ public class TLClient extends Application {
 		try {
 			 this.primaryStage = primaryStage;
 			 this.primaryStage.setTitle("Traffic Light Client");
-
 			 initRootLayout();
 		} catch(Exception e) {
 			e.printStackTrace();

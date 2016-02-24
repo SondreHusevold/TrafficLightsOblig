@@ -1,36 +1,27 @@
 package server;
 
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.stage.*;
 
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
 /*!
  * JavaFX controller. Controls all the buttons, labels, sliders, textareas and such.
+ * 
+ * Most of the main stuff is contained within the "Kickstarter" main thread instead of this one. This will ensure that the GUIController won't need
+ * to listen to any sockets, create any clients or something similar.
  */
 
 public class GUIController {
 	@FXML
-    private ListView<String> list_clientList;
+    public ListView<String> list_clientList;
+	@FXML
+	public ImageView view_trafficLight1, view_trafficLight2;
 	@FXML
 	private TextField textfield_port;
 	@FXML
@@ -60,20 +51,54 @@ public class GUIController {
 	 */
 	@FXML
 	public void launch(ActionEvent event) {
-		log.appendText("Server started at port " + Integer.parseInt(textfield_port.getText()) + "\n");
-		mainThread = new Thread(appStarter = new Kickstarter(list_clientList, Integer.parseInt(textfield_port.getText()), log));
-		mainThread.start();
-		button_stop.setDisable(false);
-		button_start.setDisable(true);
+		int port;
+		try{
+			port = Integer.parseInt(textfield_port.getText());
+		}
+		catch(NumberFormatException e){
+			new Alert(AlertType.ERROR, "Port invalid. Falling back on 5555...", ButtonType.OK).showAndWait();
+			port = 5555;
+		}
+		
+		log.appendText("Server started at port " + port + "\n");
+		try{
+			mainThread = new Thread(appStarter = new Kickstarter(list_clientList, port, log));
+			mainThread.start();
+			button_stop.setDisable(false);
+			button_start.setDisable(true);
+		} 
+		catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	/*!
+	 * Event triggered by button_stop.
+	 * 
+	 * See stop() for details.
+	 */
+	public void stop(ActionEvent event){
+		stop();
 	}
 	
 	/*!
 	 * Kills the appStarter and its thread. Reenables the start button.
 	 */
-	public void stop(ActionEvent event){
-		appStarter.kill();
-		appStarter = null;
-		mainThread = null;
+	public void stop(){
+		if(appStarter != null){
+			appStarter.kill();
+			appStarter = null;
+		}
+		
+		if(mainThread != null){
+			try {
+				mainThread.join();
+				mainThread = null;
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		
 		button_start.setDisable(false);
 		button_stop.setDisable(true);
 		log.appendText("Server stopped.");
@@ -118,7 +143,7 @@ public class GUIController {
 	}
 	
 	/*!
-	 * Event triggered by button_ApplyChanges
+	 * Applies the colors by getting the frequency from the sliders and sending it to the clients and writes to the log.
 	 */
 	@FXML
 	public void applyColors(ActionEvent event) {
@@ -134,6 +159,9 @@ public class GUIController {
 		button_ApplyChanges.setDisable(true);
 	}
 	
+	/*!
+	 * Shows the warning for desynchronizing the red and green colors and disables it from appearing again during that run.
+	 */
 	@FXML
 	public void sync_warning(ActionEvent event) {
 		if(!checkboxSyncMessage){
@@ -143,41 +171,43 @@ public class GUIController {
 		}
 	}
 	
-	@FXML
-	public void applyToClient(ActionEvent event){
-		System.out.println(list_clientList.getSelectionModel().getSelectedIndex());
-	}
-	
-	@FXML
-	public void assignWalkingLight(ActionEvent event){
-		
-	}
-	
-	// BEDRE IF TESTING
-	
+	/*!
+	 * This is used for all the buttons on the map.
+	 * 
+	 * It will first check what button was pressed, whether it's a normal traffic light and then a walking sign button since they are of
+	 * different icons and sizes. It also sets the button's icon, and sends arguments like what client is selected to the assignLight 
+	 * method.
+	 */
 	@FXML
 	public void assignLight(ActionEvent event){
 		Button[] buttonArray = {button_trafficLight1, button_trafficLight2, button_trafficLight3, button_trafficLight4};
  		if(list_clientList.getSelectionModel() != null){
  			for(int i = 0; i < buttonArray.length; i++) {
  				if(event.getSource().equals(buttonArray[i])){
- 					if(appStarter.assignLight(list_clientList.getSelectionModel().getSelectedIndex(), i)){
+ 					if(appStarter.assignLight(buttonArray[i], list_clientList.getSelectionModel().getSelectedIndex(), i, false)){
  						buttonArray[i].setStyle("-fx-graphic: url('/server/button_used.png'); -fx-background-color: transparent;");
  						return;
  					}
- 						
+ 					else{
+  					   new Alert(AlertType.ERROR, "The selected client is not a traffic signal and cannot be assigned to this spot.", ButtonType.OK).showAndWait();
+  					   return;
+ 					}
  				}
 			}
 		}
  		
- 		Button[] walkingButtonArray = {button_walking_2, button_walking_4, button_walking_1, button_walking_3, button_walking_5, button_walking_6,
-				button_walking_7, button_walking_8};
+ 		Button[] walkingButtonArray = {button_walking_3, button_walking_1, button_walking_4, button_walking_2, button_walking_7, button_walking_5,
+				button_walking_8, button_walking_6};
  		if(list_clientList.getSelectionModel() != null){
  			for(int i = 0; i < walkingButtonArray.length; i++) {
  				if(event.getSource().equals(walkingButtonArray[i])){
- 					if(appStarter.assignLight(list_clientList.getSelectionModel().getSelectedIndex(), i)){
+ 					if(appStarter.assignLight(walkingButtonArray[i], list_clientList.getSelectionModel().getSelectedIndex(), i, true)){
  						walkingButtonArray[i].setStyle("-fx-graphic: url('/server/button_walk.png'); -fx-background-color: transparent;");
  						return;
+ 					}
+ 					else{
+ 					   new Alert(AlertType.ERROR, "The selected client is not a walking sign and cannot be assigned to this spot.", ButtonType.OK).showAndWait();
+ 					   return;
  					}
  						
  				}

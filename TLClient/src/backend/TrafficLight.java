@@ -1,25 +1,25 @@
 package backend;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+
+import java.io.*;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Optional;
 import java.util.concurrent.*;
-
-import javax.swing.JOptionPane;
-
 import application.GUIController;
-import application.TLClient;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
+import javafx.scene.image.*;
+import javafx.scene.layout.BorderPane;
+
+/*!
+ * The traffic light class is meant as the actual traffic light or a walking sign.
+ * 
+ * It consists of three lights - Red, Yellow and Green and is where the client connects with the host.
+ * It is here the scheduling is done for the client, and it is here where the server and client communicates.
+ * This is also where the images are changed, the frequencies are set and input/output is interpreted. 
+ */
 
 public class TrafficLight {
 
@@ -29,10 +29,10 @@ public class TrafficLight {
 	private String hostName;
 	private Socket clientSocket;
 	public ImageView view;
-	public boolean quit;
+	public boolean quit, walk;
 	private PrintWriter out;
 	private BufferedReader in;
-	private boolean walk = false;
+	public Thread tlightThread;
 	
 	Light[] lightSwitches;						// Array which contains the three lights which is easily callable by using the finals above.
 	boolean direction;							// Forward or backwards - Red - Yellow - Green, Green - Yellow - Red.
@@ -40,31 +40,29 @@ public class TrafficLight {
 	ScheduledFuture<?> futureOfSchedulers;		// A queue for schedulers.
 	
 	/*!
-	 * Sets the light to default vaules:
+	 * Sets the light to default values:
 	 * 
-	 * Red: 10 seconds
+	 * Red: 5 seconds
 	 * Yellow: 2 seconds.
-	 * Green: 15 seconds.
+	 * Green: 5 seconds.
 	 */
 	
-	public TrafficLight(ImageView _view){
+	public TrafficLight(ImageView _view, boolean walk_){
 		view = _view;
 		lightSwitches = new Light[3];
-		lightSwitches[red] = new Light("Red", 5, "/images/Red.png");
-		lightSwitches[yellow] = new Light("Yellow", 2, "/images/Yellow.png");
-		lightSwitches[green] = new Light("Green", 5, "/images/Green.png");
-	}
-	
-	/*!
-	 * Walking sign
-	 */
-	public TrafficLight( ImageView _view, int redF, int yellowF, int greenF){
-		view = _view;
-		lightSwitches = new Light[3];
-		lightSwitches[red] = new Light("Red", redF, "/images/Walk Red.png");
-		lightSwitches[yellow] = new Light("Yellow", yellowF, "/images/Walk Red.png");
-		lightSwitches[green] = new Light("Green", greenF, "/images/Walk Green.png");
-		walk = true;
+		walk = walk_;
+		
+		// Walking Sign
+		if(walk){
+			lightSwitches[red] = new Light("Red", 5, "/images/Walk Red.png");
+			lightSwitches[yellow] = new Light("Yellow", 2, "/images/Walk Red.png");
+			lightSwitches[green] = new Light("Green", 5, "/images/Walk Green.png");
+		}
+		else{
+			lightSwitches[red] = new Light("Red", 5, "/images/Red.png");
+			lightSwitches[yellow] = new Light("Yellow", 2, "/images/Yellow.png");
+			lightSwitches[green] = new Light("Green", 5, "/images/Green.png");
+		}
 	}
 	
 	/*!
@@ -175,8 +173,8 @@ public class TrafficLight {
 			Optional<ButtonType> result = alrt.showAndWait();
 			if(result.get() == ButtonType.YES)
 				connect(hostName, port);
-			else
-				System.exit(1);
+			else	
+				System.exit(1);			// Simply exists the system. Easier than resetting everything back.
 		}
 	}
 	
@@ -190,18 +188,22 @@ public class TrafficLight {
 				scheduler.shutdown();
 				while (!scheduler.awaitTermination(10, TimeUnit.MINUTES));
 				quit = true;
+				changeImage("/images/Off.png");
 			}
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
-			System.out.println("SCHEDULER INTERRUPTED!");
 			e.printStackTrace();
 		}
 	}
 	
+	
+	/*!
+	 * Initializes the scheduler all over again. Because once it is shut down it is unusable until re-initialized.
+	 * This is done when synchronizing and when connecting.
+	 */
 	public void initializeScheduler(int colour){
-		System.out.println("INITIALIZING WITH COLOR:" + colour);
 		quit = false;
-		scheduler = Executors.newScheduledThreadPool(3);
+		scheduler = Executors.newSingleThreadScheduledExecutor();
 		if(colour == red)
 			direction = true;									// Sets the direction downwards
 		else if(colour == green)
@@ -225,14 +227,18 @@ public class TrafficLight {
 		changeImage();										// Changes the image to represent what happens above
 		
 		// Create a new thread, starts to listen for input and output from the PrintWriter and bufferedreader.
-		Thread t = new Thread(new Runnable() {
+		tlightThread = new Thread(new Runnable(){
+			 @Override
 	         public void run()
 	         {
 	        	 try {
 	                 	String receivedText;
 	                 	out = new PrintWriter(clientSocket.getOutputStream(), true);
 	                 	in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-        				while(!futureOfSchedulers.isCancelled() && !quit && !scheduler.isShutdown()){   						// As long as the scheduler queue isn't cancelled
+	                 	
+	                 	if(walk)																 // Tells the server what type of client this is. Walk or normal traffic light.
+	                 		send("walk");
+        				while(!futureOfSchedulers.isCancelled() && !quit && !scheduler.isShutdown()){
         					
         					if(in.ready()){															// Check for incoming message.
         						receivedText = in.readLine();										// Read IV
@@ -247,21 +253,6 @@ public class TrafficLight {
         						changeImage();													// Change the image
         					}
         				}
-        				
-        				// Send kill command.
-        				String IV = Crypto.getRandomIV();
-        				out.println(IV + "\n" + Crypto.encrypt("kill", IV));
-        				
-        				FXMLLoader loader = new FXMLLoader(this.getClass().getResource("/application/GUI.fxml"));
-						Parent root = (Parent) loader.load();
-        				GUIController controller = loader.getController();
-        				Platform.runLater(() -> {
-        					// CAN'T GET THIS SHIT WORKING!!!!! 
-            				controller.disconnect();
-            				controller.getConnect().setDisable(false);
-        				});
-        				in.close();
-        				out.close();
         		    } 
         		    catch (UnknownHostException e) {
         		        System.err.println("ERROR: COULD NOT FIND HOST: " + hostName);
@@ -273,14 +264,41 @@ public class TrafficLight {
         		        System.exit(1);
         		    }
 	        	 catch (RejectedExecutionException e){
-	        		 System.out.println("Tried to schedule a new task, but the scheduler was shut down!");
+	        		 // This will happen when the client is forcefully disconnected while doing a task.
+	        		 // Therefore, the exception will be catched and no action will be done. This is common.
 	        	 }
+	        	 
+	        	// Sending and closing buffers are done here to prevent system from failing to disconnect 
+	        	// if the scheduler was interrupted abruptly and got a RejectedExecutionException 
+	        	// which would then jump over the kill command and the closing of the buffers.
+ 				send("kill");
+ 				
+ 				try {
+					in.close();
+	 				out.close();
+	 				FXMLLoader fxmlLoader = new FXMLLoader();
+	 				BorderPane p = fxmlLoader.load(getClass().getResource("/application/GUI.fxml").openStream());
+	 				GUIController controller = (GUIController) fxmlLoader.getController();
+	 	            controller.disconnect();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+ 				
 	         }
 		});
 		// This will start the thread above. Required, otherwise the thread will never start running the Runnable code.
-		t.start();
+		tlightThread.start();
 	}
 	
+    /*!
+     * Sends a string to the server.
+     */
+    public void send(String s){
+		String IV = Crypto.getRandomIV();								// Gets IV
+		String message = IV + "\n" + Crypto.encrypt(s, IV); 			// Creates the message by including IV, newline and encrypted text.
+    	out.println(message);											// Sends encrypted message.
+    }
+    
 	/*!
 	 * Completes commands.
 	 * 
@@ -295,6 +313,7 @@ public class TrafficLight {
 	public void doCommand(String decrypted) throws IOException{
 		if(decrypted.startsWith("kill")){
 			quit = true;
+			changeImage("/images/Off.png");
 		}
 		else if(decrypted.startsWith("C")){
 			
@@ -308,7 +327,6 @@ public class TrafficLight {
 		else if(decrypted.startsWith("sync")){
 			disconnect();
 			initializeScheduler(Character.getNumericValue(decrypted.charAt(decrypted.length()-1)));
-			System.out.println("Waiting for server response...");
 			if(walk)
 				changeImage("/images/Walk Off.png");
 			else
@@ -321,7 +339,6 @@ public class TrafficLight {
 					break;
 				}
 			}
-			System.out.println("Got server response. Restarting scheduler now.");
 		}
 	}
 }

@@ -1,0 +1,117 @@
+\hypertarget{classserver_1_1_g_u_i_controller}{}\section{server.\+G\+U\+I\+Controller Class Reference}
+\label{classserver_1_1_g_u_i_controller}\index{server.\+G\+U\+I\+Controller@{server.\+G\+U\+I\+Controller}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_acf92ca1ea088749ae09c2b0af80aa1bb}{launch} (Action\+Event event)
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_aa9937074dfbc56bff950e32b50839830}{stop} (Action\+Event event)
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_aae8010b06b7b15549184c337bf52143d}{stop} ()
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_a5d4f06a9637212f2997fac0c4e2170af}{change\+Yellow\+Slider\+Value} (Mouse\+Event event)
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_adf1f5bc21fa366cef67190136b77592d}{change\+Green\+Slider\+Value} (Mouse\+Event event)
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_addab5196eb4594616a3bd2dcc29489db}{change\+Red\+Slider\+Value} (Mouse\+Event event)
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_a6bacbc209aafa62be4804ff3856376e3}{apply\+Colors} (Action\+Event event)
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_a8cd1634fc294643ea4b9521e8208fe47}{sync\+\_\+warning} (Action\+Event event)
+\item 
+void \hyperlink{classserver_1_1_g_u_i_controller_ae1193dc919447002f2b789250150ca5f}{assign\+Light} (Action\+Event event)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+List\+View$<$ String $>$ {\bfseries list\+\_\+client\+List}\hypertarget{classserver_1_1_g_u_i_controller_a1dcb7f6387529a4b8274c2c899505398}{}\label{classserver_1_1_g_u_i_controller_a1dcb7f6387529a4b8274c2c899505398}
+
+\item 
+Image\+View {\bfseries view\+\_\+traffic\+Light1}\hypertarget{classserver_1_1_g_u_i_controller_af75f7c418183ce486b2b86dbd9fc305c}{}\label{classserver_1_1_g_u_i_controller_af75f7c418183ce486b2b86dbd9fc305c}
+
+\item 
+Text\+Area {\bfseries log}\hypertarget{classserver_1_1_g_u_i_controller_a776c464bc80de311d3e029f315f0f6c8}{}\label{classserver_1_1_g_u_i_controller_a776c464bc80de311d3e029f315f0f6c8}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Java\+FX controller. Controls all the buttons, labels, sliders, textareas and such.
+
+Most of the main stuff is contained within the \char`\"{}\+Kickstarter\char`\"{} main thread instead of this one. This will ensure that the \hyperlink{classserver_1_1_g_u_i_controller}{G\+U\+I\+Controller} won\textquotesingle{}t need to listen to any sockets, create any clients or something similar. 
+
+\subsection{Member Function Documentation}
+\index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!apply\+Colors@{apply\+Colors}}
+\index{apply\+Colors@{apply\+Colors}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{apply\+Colors(\+Action\+Event event)}{applyColors(ActionEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+apply\+Colors (
+\begin{DoxyParamCaption}
+\item[{Action\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_a6bacbc209aafa62be4804ff3856376e3}{}\label{classserver_1_1_g_u_i_controller_a6bacbc209aafa62be4804ff3856376e3}
+Applies the colors by getting the frequency from the sliders and sending it to the clients and writes to the log. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!assign\+Light@{assign\+Light}}
+\index{assign\+Light@{assign\+Light}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{assign\+Light(\+Action\+Event event)}{assignLight(ActionEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+assign\+Light (
+\begin{DoxyParamCaption}
+\item[{Action\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_ae1193dc919447002f2b789250150ca5f}{}\label{classserver_1_1_g_u_i_controller_ae1193dc919447002f2b789250150ca5f}
+This is used for all the buttons on the map.
+
+It will first check what button was pressed, whether it\textquotesingle{}s a normal traffic light and then a walking sign button since they are of different icons and sizes. It also sets the button\textquotesingle{}s icon, and sends arguments like what client is selected to the assign\+Light method. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!change\+Green\+Slider\+Value@{change\+Green\+Slider\+Value}}
+\index{change\+Green\+Slider\+Value@{change\+Green\+Slider\+Value}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{change\+Green\+Slider\+Value(\+Mouse\+Event event)}{changeGreenSliderValue(MouseEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+change\+Green\+Slider\+Value (
+\begin{DoxyParamCaption}
+\item[{Mouse\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_adf1f5bc21fa366cef67190136b77592d}{}\label{classserver_1_1_g_u_i_controller_adf1f5bc21fa366cef67190136b77592d}
+Changes the label where the green slider is to show its value. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!change\+Red\+Slider\+Value@{change\+Red\+Slider\+Value}}
+\index{change\+Red\+Slider\+Value@{change\+Red\+Slider\+Value}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{change\+Red\+Slider\+Value(\+Mouse\+Event event)}{changeRedSliderValue(MouseEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+change\+Red\+Slider\+Value (
+\begin{DoxyParamCaption}
+\item[{Mouse\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_addab5196eb4594616a3bd2dcc29489db}{}\label{classserver_1_1_g_u_i_controller_addab5196eb4594616a3bd2dcc29489db}
+Changes the label where the red slider is to show its value. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!change\+Yellow\+Slider\+Value@{change\+Yellow\+Slider\+Value}}
+\index{change\+Yellow\+Slider\+Value@{change\+Yellow\+Slider\+Value}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{change\+Yellow\+Slider\+Value(\+Mouse\+Event event)}{changeYellowSliderValue(MouseEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+change\+Yellow\+Slider\+Value (
+\begin{DoxyParamCaption}
+\item[{Mouse\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_a5d4f06a9637212f2997fac0c4e2170af}{}\label{classserver_1_1_g_u_i_controller_a5d4f06a9637212f2997fac0c4e2170af}
+Changes the label where the yellow slider is to show its value. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!launch@{launch}}
+\index{launch@{launch}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{launch(\+Action\+Event event)}{launch(ActionEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+launch (
+\begin{DoxyParamCaption}
+\item[{Action\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_acf92ca1ea088749ae09c2b0af80aa1bb}{}\label{classserver_1_1_g_u_i_controller_acf92ca1ea088749ae09c2b0af80aa1bb}
+Event triggered by button\+\_\+start.
+
+This will create a new thread which will make app\+Starter a new \hyperlink{classserver_1_1_kickstarter}{Kickstarter} object and send arguments. It will then start the thread, and disable the start button, while enabling the stop button. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!stop@{stop}}
+\index{stop@{stop}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{stop(\+Action\+Event event)}{stop(ActionEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+stop (
+\begin{DoxyParamCaption}
+\item[{Action\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_aa9937074dfbc56bff950e32b50839830}{}\label{classserver_1_1_g_u_i_controller_aa9937074dfbc56bff950e32b50839830}
+Event triggered by button\+\_\+stop.
+
+See \hyperlink{classserver_1_1_g_u_i_controller_aae8010b06b7b15549184c337bf52143d}{stop()} for details. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!stop@{stop}}
+\index{stop@{stop}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{stop()}{stop()}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+stop (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_aae8010b06b7b15549184c337bf52143d}{}\label{classserver_1_1_g_u_i_controller_aae8010b06b7b15549184c337bf52143d}
+Kills the app\+Starter and its thread. Reenables the start button. \index{server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}!sync\+\_\+warning@{sync\+\_\+warning}}
+\index{sync\+\_\+warning@{sync\+\_\+warning}!server\+::\+G\+U\+I\+Controller@{server\+::\+G\+U\+I\+Controller}}
+\subsubsection[{\texorpdfstring{sync\+\_\+warning(\+Action\+Event event)}{sync_warning(ActionEvent event)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+G\+U\+I\+Controller.\+sync\+\_\+warning (
+\begin{DoxyParamCaption}
+\item[{Action\+Event}]{event}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_g_u_i_controller_a8cd1634fc294643ea4b9521e8208fe47}{}\label{classserver_1_1_g_u_i_controller_a8cd1634fc294643ea4b9521e8208fe47}
+Shows the warning for desynchronizing the red and green colors and disables it from appearing again during that run. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Blue\+Traffic\+Server/src/server/G\+U\+I\+Controller.\+java\end{DoxyCompactItemize}

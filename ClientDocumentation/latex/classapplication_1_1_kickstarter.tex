@@ -1,0 +1,51 @@
+\hypertarget{classapplication_1_1_kickstarter}{}\section{application.\+Kickstarter Class Reference}
+\label{classapplication_1_1_kickstarter}\index{application.\+Kickstarter@{application.\+Kickstarter}}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classapplication_1_1_kickstarter_a967b3fbe01bc93fef2821741613d0db7}{Kickstarter} (String hostname, int \+\_\+port, boolean walk, Image\+View view)
+\item 
+void \hyperlink{classapplication_1_1_kickstarter_a13fc6c3b4b32c29af30649cf387a5bc0}{connect} ()
+\item 
+void \hyperlink{classapplication_1_1_kickstarter_ab4c9b1c4909606883afeff6552d2bd8b}{disconnect} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+This class is meant as a bridge between the G\+UI Controller and the Traffic Light.
+
+The reason for this being the Main class (\hyperlink{classapplication_1_1_t_l_client}{T\+L\+Client}) is mainly used to initialize the G\+UI and its Java\+FX controller, thus in order to separate the G\+UI controller and what actually starts the client backend, this acts like the main method to kickstart the client instead of handling client objects inside the G\+UI controller. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{application\+::\+Kickstarter@{application\+::\+Kickstarter}!Kickstarter@{Kickstarter}}
+\index{Kickstarter@{Kickstarter}!application\+::\+Kickstarter@{application\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{Kickstarter(\+String hostname, int \+\_\+port, boolean walk, Image\+View view)}{Kickstarter(String hostname, int _port, boolean walk, ImageView view)}}]{\setlength{\rightskip}{0pt plus 5cm}application.\+Kickstarter.\+Kickstarter (
+\begin{DoxyParamCaption}
+\item[{String}]{hostname, }
+\item[{int}]{\+\_\+port, }
+\item[{boolean}]{walk, }
+\item[{Image\+View}]{view}
+\end{DoxyParamCaption}
+)}\hypertarget{classapplication_1_1_kickstarter_a967b3fbe01bc93fef2821741613d0db7}{}\label{classapplication_1_1_kickstarter_a967b3fbe01bc93fef2821741613d0db7}
+Gets the hostname, port and traffic light type as arguments from the G\+UI controller. The Image\+View from the center of the G\+UI is also sent through here in order for the traffic light to get access to this and change it when the lights change. 
+
+\subsection{Member Function Documentation}
+\index{application\+::\+Kickstarter@{application\+::\+Kickstarter}!connect@{connect}}
+\index{connect@{connect}!application\+::\+Kickstarter@{application\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{connect()}{connect()}}]{\setlength{\rightskip}{0pt plus 5cm}void application.\+Kickstarter.\+connect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classapplication_1_1_kickstarter_a13fc6c3b4b32c29af30649cf387a5bc0}{}\label{classapplication_1_1_kickstarter_a13fc6c3b4b32c29af30649cf387a5bc0}
+Connects to the traffic light using the hostname and the port acquired from the user interface. \index{application\+::\+Kickstarter@{application\+::\+Kickstarter}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!application\+::\+Kickstarter@{application\+::\+Kickstarter}}
+\subsubsection[{\texorpdfstring{disconnect()}{disconnect()}}]{\setlength{\rightskip}{0pt plus 5cm}void application.\+Kickstarter.\+disconnect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classapplication_1_1_kickstarter_ab4c9b1c4909606883afeff6552d2bd8b}{}\label{classapplication_1_1_kickstarter_ab4c9b1c4909606883afeff6552d2bd8b}
+Disconnects the traffic light by 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+T\+L\+Client/src/application/Kickstarter.\+java\end{DoxyCompactItemize}

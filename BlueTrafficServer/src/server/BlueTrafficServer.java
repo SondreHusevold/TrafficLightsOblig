@@ -1,17 +1,16 @@
 package server;
 	
 import java.io.*;
-import java.net.*;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
 import javafx.scene.layout.*;
 
 /*!
- * Main class. Initializes the user interface and its controller. Doesn't do much else.
+ * This is the main class and it basically doesn't do anything except setting up the window using JavaFX.
+ * 
+ * Most of the important stuff is done from the Kickstarter class instead of this one.
  */
 
 public class BlueTrafficServer extends Application {
@@ -39,6 +38,10 @@ public class BlueTrafficServer extends Application {
             
             // Show the scene containing the root layout.
             Scene scene = new Scene(rootLayout);
+            primaryStage.setOnCloseRequest(event -> {
+            	GUIController controller = loader.getController();
+            	controller.stop();
+            });
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {

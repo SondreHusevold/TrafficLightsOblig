@@ -1,0 +1,109 @@
+\hypertarget{classserver_1_1_client}{}\section{server.\+Client Class Reference}
+\label{classserver_1_1_client}\index{server.\+Client@{server.\+Client}}
+Inheritance diagram for server.\+Client\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{classserver_1_1_client}
+\end{center}
+\end{figure}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{classserver_1_1_client_aee63aae8dfec00550d2e2dca453233b8}{Client} (Socket \+\_\+socket)
+\item 
+String \hyperlink{classserver_1_1_client_a7284190b6acc0b3bba7259386fdc1dae}{get\+IP} ()
+\item 
+int \hyperlink{classserver_1_1_client_a7007d0065eb9fce43104d0868b480345}{get\+Pos} ()
+\item 
+boolean \hyperlink{classserver_1_1_client_a372ee497c2b87609e007765b21db53c5}{get\+Walk} ()
+\item 
+void \hyperlink{classserver_1_1_client_a40f63bbb350bc2f1a65239c04a4a2905}{set\+Pos} (Button b, int i)
+\item 
+void \hyperlink{classserver_1_1_client_abb9c0d4159442e7618eadebd8c34a2ee}{run} ()
+\item 
+void \hyperlink{classserver_1_1_client_a87b76abeb1dc06113a33ab759a7f1a2b}{send} (String s)
+\item 
+void \hyperlink{classserver_1_1_client_a9d49beb9c187a988ba27588038292327}{disconnect} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A unique thread for a client. This thread is listening on the socket for input or output from the client. 
+
+\subsection{Constructor \& Destructor Documentation}
+\index{server\+::\+Client@{server\+::\+Client}!Client@{Client}}
+\index{Client@{Client}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{Client(\+Socket \+\_\+socket)}{Client(Socket _socket)}}]{\setlength{\rightskip}{0pt plus 5cm}server.\+Client.\+Client (
+\begin{DoxyParamCaption}
+\item[{Socket}]{\+\_\+socket}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_aee63aae8dfec00550d2e2dca453233b8}{}\label{classserver_1_1_client_aee63aae8dfec00550d2e2dca453233b8}
+Default constructor. Sets the socket and the client\textquotesingle{}s IP. 
+
+\subsection{Member Function Documentation}
+\index{server\+::\+Client@{server\+::\+Client}!disconnect@{disconnect}}
+\index{disconnect@{disconnect}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{disconnect()}{disconnect()}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Client.\+disconnect (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_a9d49beb9c187a988ba27588038292327}{}\label{classserver_1_1_client_a9d49beb9c187a988ba27588038292327}
+Disconnects the client from the server.
+
+
+\begin{DoxyItemize}
+\item Closes the input/ouput with the server.
+\item Removes its own IP from the list of clients in the user interface.
+\item Also sets the main thread to join (remove) this client\textquotesingle{}s thread before removing it from the client\+List. 
+\end{DoxyItemize}\index{server\+::\+Client@{server\+::\+Client}!get\+IP@{get\+IP}}
+\index{get\+IP@{get\+IP}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{get\+I\+P()}{getIP()}}]{\setlength{\rightskip}{0pt plus 5cm}String server.\+Client.\+get\+IP (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_a7284190b6acc0b3bba7259386fdc1dae}{}\label{classserver_1_1_client_a7284190b6acc0b3bba7259386fdc1dae}
+Gets the IP of the client. \index{server\+::\+Client@{server\+::\+Client}!get\+Pos@{get\+Pos}}
+\index{get\+Pos@{get\+Pos}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{get\+Pos()}{getPos()}}]{\setlength{\rightskip}{0pt plus 5cm}int server.\+Client.\+get\+Pos (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_a7007d0065eb9fce43104d0868b480345}{}\label{classserver_1_1_client_a7007d0065eb9fce43104d0868b480345}
+Gets the position of the client. \index{server\+::\+Client@{server\+::\+Client}!get\+Walk@{get\+Walk}}
+\index{get\+Walk@{get\+Walk}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{get\+Walk()}{getWalk()}}]{\setlength{\rightskip}{0pt plus 5cm}boolean server.\+Client.\+get\+Walk (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_a372ee497c2b87609e007765b21db53c5}{}\label{classserver_1_1_client_a372ee497c2b87609e007765b21db53c5}
+Gets the walk signal boolean of the client. \index{server\+::\+Client@{server\+::\+Client}!run@{run}}
+\index{run@{run}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{run()}{run()}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Client.\+run (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_abb9c0d4159442e7618eadebd8c34a2ee}{}\label{classserver_1_1_client_abb9c0d4159442e7618eadebd8c34a2ee}
+This is the thread\textquotesingle{}s running task and is what is constantly running to check for input.
+
+This will initialize the out and in buffers and wait for any new input until the socket is closed forcefully. If certain input is detected like kill and walk, it\textquotesingle{}ll apply certain commands to either end the method completely, or set the walk flag.
+
+In order to see the commands, it\textquotesingle{}ll need to use the \hyperlink{classserver_1_1_crypto}{Crypto} class to decrypt the information located in the incoming input. \index{server\+::\+Client@{server\+::\+Client}!send@{send}}
+\index{send@{send}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{send(\+String s)}{send(String s)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Client.\+send (
+\begin{DoxyParamCaption}
+\item[{String}]{s}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_a87b76abeb1dc06113a33ab759a7f1a2b}{}\label{classserver_1_1_client_a87b76abeb1dc06113a33ab759a7f1a2b}
+Sends a string to the client by encrypting it first and then sending it through the out buffer as long as the output isn\textquotesingle{}t closed. \index{server\+::\+Client@{server\+::\+Client}!set\+Pos@{set\+Pos}}
+\index{set\+Pos@{set\+Pos}!server\+::\+Client@{server\+::\+Client}}
+\subsubsection[{\texorpdfstring{set\+Pos(\+Button b, int i)}{setPos(Button b, int i)}}]{\setlength{\rightskip}{0pt plus 5cm}void server.\+Client.\+set\+Pos (
+\begin{DoxyParamCaption}
+\item[{Button}]{b, }
+\item[{int}]{i}
+\end{DoxyParamCaption}
+)}\hypertarget{classserver_1_1_client_a40f63bbb350bc2f1a65239c04a4a2905}{}\label{classserver_1_1_client_a40f63bbb350bc2f1a65239c04a4a2905}
+Sets the position of the client. 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Blue\+Traffic\+Server/src/server/Client.\+java\end{DoxyCompactItemize}
